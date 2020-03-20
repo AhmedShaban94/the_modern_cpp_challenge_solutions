@@ -1,0 +1,29 @@
+cmake_minimum_required(VERSION 3.11.0)
+project(modern_cpp_challenge_book)
+
+# libray configuration 
+add_library(problem_01 src/problem_01.cpp) 
+target_include_directories(problem_01 PRIVATE include/)
+target_compile_options(problem_01 PRIVATE -O3) 
+target_compile_features(problem_01 PRIVATE cxx_std_17) 
+
+# main configuration 
+add_executable(main main.cpp)
+target_include_directories(main PRIVATE include/)
+target_link_libraries(main PRIVATE problem_01)
+target_compile_options(main PRIVATE -O3)
+target_compile_definitions(main PRIVATE cxx_std_17) 
+set_target_properties (main PROPERTIES FOLDER "01.Math")
+
+#tests configuration 
+find_package(GTest REQUIRED)	
+if(${ENABLE_TESTS})
+	add_executable(tests tests/tests.cpp)
+	
+	target_link_libraries(tests PRIVATE ${GTEST_BOTH_LIBRARIES} problem_01)
+	target_include_directories(tests PRIVATE ${GTEST_INCLUDE_DIRS})
+	target_include_directories(tests PRIVATE include/)
+	
+	target_compile_features(tests PRIVATE cxx_std_17)
+	add_test(AllTestsInFoo tests)
+endif()
