@@ -1,6 +1,6 @@
 #include "problem_01.h"
 
-std::string Chapter01::testFunc()
+std::string Problem01::testFunc()
 {
 	return "Hello World"; 
 }

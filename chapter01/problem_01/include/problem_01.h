@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-namespace Chapter01
+namespace Problem01
 {
 	std::string testFunc(); 
 }

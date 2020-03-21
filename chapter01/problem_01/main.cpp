@@ -2,6 +2,6 @@
 
 int main()
 {
-	std::cout << Chapter01::testFunc(); 
-	return EXIT_SUCCESS; 
+	std::cout << Problem01::testFunc();
+	return EXIT_SUCCESS;
 }

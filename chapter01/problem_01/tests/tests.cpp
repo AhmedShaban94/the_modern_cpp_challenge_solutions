@@ -1,13 +1,11 @@
-#include "gtest/gtest.h"
+#define CATCH_CONFIG_MAIN
+#include "catch2/catch.hpp"
 #include "problem_01.h"
 
-TEST(firstTest, testFunc)
-{
-	ASSERT_EQ("Hello World", Chapter01::testFunc()); 
-}
 
-int main(int argc, char** argv)
-{
-	::testing::InitGoogleTest(&argc, argv);
-	return RUN_ALL_TESTS();
+TEST_CASE("testProblem1", "[single-file]") {
+    SECTION("test if function returns expected string")
+    {
+        REQUIRE("Hello World" == Problem01::testFunc()); 
+    }
 }
