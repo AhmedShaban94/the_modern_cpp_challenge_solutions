@@ -6,6 +6,7 @@
 TEST_CASE("testProblem1", "[single-file]") {
     SECTION("test if function returns expected string")
     {
-        REQUIRE("Hello World" == Problem01::testFunc()); 
+        REQUIRE("Hello World" == Problem01::testFunc());
+    
     }
 }
