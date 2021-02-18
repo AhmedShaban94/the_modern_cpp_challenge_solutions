@@ -7,3 +7,6 @@ if (${ENABLE_TESTS})
 endif()
 
 add_subdirectory(chapter01/problem_01)
+add_subdirectory(chapter01/problem_02)
+add_subdirectory(chapter01/problem_03)
+add_subdirectory(chapter01/problem_04)
