@@ -2,8 +2,15 @@ cmake_minimum_required(VERSION 3.7.0)
 project(modern_cpp_challenge_book)
 
 option(ENABLE_TESTS "Enable tests" ON)
-if (${ENABLE_TESTS})
-    enable_testing()
+message("Enable tests: ${ENABLE_TESTS}")
+if(${ENABLE_TESTS})
+    Include(FetchContent)
+    FetchContent_Declare(
+        Catch2
+        GIT_REPOSITORY https://github.com/catchorg/Catch2.git
+        GIT_TAG        v2.13.1
+    )
+    FetchContent_MakeAvailable(Catch2)
 endif()
 
 add_subdirectory(chapter01/problem_01)
