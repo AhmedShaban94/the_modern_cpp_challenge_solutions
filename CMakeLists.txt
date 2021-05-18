@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.7.0)
 project(modern_cpp_challenge_book)
 
 option(ENABLE_TESTS "Enable tests" ON)
-message("Enable tests: ${ENABLE_TESTS}")
+message("Enable testing status: ${ENABLE_TESTS}")
 if(${ENABLE_TESTS})
     Include(FetchContent)
     FetchContent_Declare(
@@ -11,6 +11,8 @@ if(${ENABLE_TESTS})
         GIT_TAG        v2.13.1
     )
     FetchContent_MakeAvailable(Catch2)
+    link_libraries(Catch2::Catch2)
+    include_directories(${catch2_SOURCE_DIR}/single_include)
 endif()
 
 add_subdirectory(chapter01/problem_01)

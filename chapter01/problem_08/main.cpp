@@ -1,3 +1,5 @@
+#define CATCH_CONFIG_RUNNER
+#include "catch2/catch.hpp"
 #include <algorithm>
 #include <iostream>
 #include <numeric>
@@ -11,6 +13,8 @@
 bool is_armstrong(const std::size_t &number)
 {
     const std::string num_str = std::to_string(number);
+    if (num_str.size() != 3)
+        return false;
     const auto first_digit = num_str.at(0) - '0';
     const auto second_digit = num_str.at(1) - '0';
     const auto third_digit = num_str.at(2) - '0';
@@ -19,7 +23,22 @@ bool is_armstrong(const std::size_t &number)
                          (third_digit * third_digit * third_digit);
 }
 
-int main()
+TEST_CASE("armstrong numbers are computed", "[armstrong]")
+{
+    REQUIRE(is_armstrong(153));
+    REQUIRE(is_armstrong(370));
+    REQUIRE(is_armstrong(371));
+    REQUIRE(is_armstrong(407));
+
+    REQUIRE_FALSE(is_armstrong(1634));
+    REQUIRE_FALSE(is_armstrong(111));
+    REQUIRE_FALSE(is_armstrong(120));
+    REQUIRE_FALSE(is_armstrong(123));
+    REQUIRE_FALSE(is_armstrong(140));
+    REQUIRE_FALSE(is_armstrong(148));
+}
+
+int main(int argc, char *argv[])
 {
     std::vector<std::size_t> numbers_with_3_digits(1000 - 100);
     std::vector<std::size_t> result;
@@ -28,5 +47,9 @@ int main()
 
     for (const auto &num : result)
         std::cout << num << '\n';
-    return EXIT_SUCCESS;
+    
+    // run tests
+    int result_ = Catch::Session().run(argc, argv);
+    // global clean-up...
+    return result_;
 }
