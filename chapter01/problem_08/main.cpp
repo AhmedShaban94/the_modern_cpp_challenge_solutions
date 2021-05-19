@@ -1,6 +1,7 @@
 #define CATCH_CONFIG_RUNNER
 #include "catch2/catch.hpp"
 #include <algorithm>
+#include <cmath>
 #include <iostream>
 #include <numeric>
 #include <string>
@@ -12,15 +13,11 @@
 
 bool is_armstrong(const std::size_t &number)
 {
+    size_t total = 0;
     const std::string num_str = std::to_string(number);
-    if (num_str.size() != 3)
-        return false;
-    const auto first_digit = num_str.at(0) - '0';
-    const auto second_digit = num_str.at(1) - '0';
-    const auto third_digit = num_str.at(2) - '0';
-    return number == (first_digit * first_digit * first_digit) +
-                         (second_digit * second_digit * second_digit) +
-                         (third_digit * third_digit * third_digit);
+    for (const auto &ch : num_str)
+        total += std::pow(ch - '0', num_str.size());
+    return total == number;
 }
 
 TEST_CASE("armstrong numbers are computed", "[armstrong]")
@@ -29,8 +26,11 @@ TEST_CASE("armstrong numbers are computed", "[armstrong]")
     REQUIRE(is_armstrong(370));
     REQUIRE(is_armstrong(371));
     REQUIRE(is_armstrong(407));
+    REQUIRE(is_armstrong(1634));
+    REQUIRE(is_armstrong(54748));
+    REQUIRE(is_armstrong(548834));
+    REQUIRE(is_armstrong(9926315));
 
-    REQUIRE_FALSE(is_armstrong(1634));
     REQUIRE_FALSE(is_armstrong(111));
     REQUIRE_FALSE(is_armstrong(120));
     REQUIRE_FALSE(is_armstrong(123));
@@ -47,7 +47,7 @@ int main(int argc, char *argv[])
 
     for (const auto &num : result)
         std::cout << num << '\n';
-    
+
     // run tests
     int result_ = Catch::Session().run(argc, argv);
     // global clean-up...
