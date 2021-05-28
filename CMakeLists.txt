@@ -5,6 +5,7 @@ option(ENABLE_TESTS "Enable tests" ON)
 message("Enable testing status: ${ENABLE_TESTS}")
 if(${ENABLE_TESTS})
     Include(FetchContent)
+    set(FETCHCONTENT_BASE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/external)
     FetchContent_Declare(
         Catch2
         GIT_REPOSITORY https://github.com/catchorg/Catch2.git
