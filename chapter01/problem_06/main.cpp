@@ -10,14 +10,14 @@ int main()
 
     std::vector<size_t> divisors;
     std::vector<std::pair<int, int>> nums;
-    for (int i = 1; i < limit; ++i)
+    for (std::size_t i = 1; i < limit; ++i)
     {
-        for (int j = 1; j < i; ++j)
+        for (std::size_t j = 1; j < i; ++j)
         {
             if (i % j == 0)
                 divisors.push_back(j);
         }
-        int divisors_sum
+        auto divisors_sum
             = std::accumulate(divisors.begin(), divisors.end(), (size_t)0);
         if (divisors_sum > i)
             nums.emplace_back(i, divisors_sum - i);

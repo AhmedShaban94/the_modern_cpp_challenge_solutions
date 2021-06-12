@@ -1,4 +1,4 @@
-#include <iostream>
+#include "iostream" 
 #include <numeric>
 #include <vector>
 
@@ -11,7 +11,7 @@ int main()
     std::cout << "Enter the limit.\nNote: The limit is included\n";
     std::cin >> limit;
 
-    for (int i = 3; i <= limit; ++i)
+    for (std::size_t i = 3; i <= limit; ++i)
         if (i % 3 == 0 || i % 5 == 0)
             vec.push_back(i);
 

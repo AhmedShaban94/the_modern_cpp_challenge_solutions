@@ -7,9 +7,9 @@ int main()
     std::cout << "Enter the number\n";
     std::cin >> limit;
 
-    for (int i = 2; i < limit; ++i)
+    for (std::size_t i = 2; i < limit; ++i)
     {
-        for (int j = 0; j <= i; ++j)
+        for (std::size_t j = 0; j <= i; ++j)
             if (j % i == 0)
                 prime = i;
     }

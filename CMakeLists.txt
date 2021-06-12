@@ -1,11 +1,18 @@
 cmake_minimum_required(VERSION 3.7.0)
 project(modern_cpp_challenge_book)
 
+add_compile_definitions(cxx_std_17)
+if(MSVC)
+    add_compile_options(/O3 /W4 /Wx)
+else()
+    add_compile_options(-O3 -Wall -Wextra -Werror -pedantic)
+endif()
+
 option(ENABLE_TESTS "Enable tests" ON)
 message("Enable testing status: ${ENABLE_TESTS}")
 if(${ENABLE_TESTS})
     Include(FetchContent)
-    set(FETCHCONTENT_BASE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/external)
+    set(FETCHCONTENT_BASE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/external/catch)
     FetchContent_Declare(
         Catch2
         GIT_REPOSITORY https://github.com/catchorg/Catch2.git

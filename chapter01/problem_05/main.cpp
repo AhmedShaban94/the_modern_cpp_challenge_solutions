@@ -5,7 +5,7 @@
 //chapter-1 -> problem5 (sexy prime numbers)
 int main()
 {
-	unsigned int limit, prime;
+	unsigned int limit{};
 	std::vector<int> prime_nums, sexy_primes;
 	std::cout << "Enter the limit number\n";
 	std::cin >> limit;
@@ -17,13 +17,13 @@ int main()
 		return true;
      }; 
 
-	for (int i = 2; i <= limit; ++i)
+	for (std::size_t i = 2; i <= limit; ++i)
 		if (is_prime(i))
 			prime_nums.push_back(i);
 
-	for (int i = 2; i < prime_nums.size(); ++i)
+	for (std::size_t i = 2; i < prime_nums.size(); ++i)
 	{
-		for (int j = 2; j < i; ++j)
+		for (std::size_t j = 2; j < i; ++j)
 		{
 			if ((prime_nums.at(i) - prime_nums.at(j)) == 6)
 			{
