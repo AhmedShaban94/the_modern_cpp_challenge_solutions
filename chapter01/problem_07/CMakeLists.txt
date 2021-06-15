@@ -3,6 +3,4 @@ project(modern_cpp_challenge_book)
 
 # main configuration 
 add_executable(problem_07 main.cpp)
-target_compile_options(problem_07 PRIVATE -O3)
-target_compile_definitions(problem_07 PRIVATE cxx_std_17) 
 set_target_properties (problem_07 PROPERTIES FOLDER "01.Math")
