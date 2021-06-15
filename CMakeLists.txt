@@ -3,9 +3,9 @@ project(modern_cpp_challenge_book)
 
 set(CMAKE_CXX_STANDARD 17)
 if(MSVC)
-    add_compile_options(/O3 /W4 /Wx)
+    add_compile_options(/O3 /W3 /Wx)
 else()
-    add_compile_options(-O3 -Wall -Wextra -Werror -pedantic)
+    add_compile_options(-O3 -Wall -Wextra -pedantic)
 endif()
 
 option(ENABLE_TESTS "Enable tests" ON)
