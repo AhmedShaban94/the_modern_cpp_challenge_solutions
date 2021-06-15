@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.7.0)
 project(modern_cpp_challenge_book)
 
-add_compile_definitions(cxx_std_17)
+set(CMAKE_CXX_STANDARD 17)
 if(MSVC)
     add_compile_options(/O3 /W4 /Wx)
 else()
