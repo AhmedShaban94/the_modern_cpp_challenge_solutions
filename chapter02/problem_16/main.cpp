@@ -1,54 +1,35 @@
 #define CATCH_CONFIG_MAIN
-#include "catch2/catch.hpp"
 #include "Ipv4.hpp"
+#include "catch2/catch.hpp"
 
-TEST_CASE("IPv4 Address class constructor validation", "[IPv4]")
+template <typename T>
+void print(const T &vec)
 {
-    const std::unordered_map<std::string, std::uint32_t> validIpAddresses{
-        {"255.255.255.255", 4294967295}, {"128.147.0.1", 2157117441},
-        {"123.70.50.1", 2068197889}, {"128.107.20.1", 2154501121},
-        {"128.107.30.1", 2154503681}, {"128.107.20.10", 2154501130}, {"128.107.10.15", 2154498575}};
+    for (const auto &element : vec)
+        std::cout << element << '\n';
+}
 
-    const std::vector<std::string> invalidIpAddresses{"",
-                                                      "some string",
-                                                      "360.255.255.255",
-                                                      "255.360.255.255",
-                                                      "255.255.360.255",
-                                                      "255.255.255.360",
-                                                      "255,255,255,255",
-                                                      "255.-255.255.255",
-                                                      "255.255.255.255.255"};
+std::vector<IPv4> enumrate_IPs_in_range(const IPv4 &first, const IPv4 &last)
+{
+    const auto first_decimal = static_cast<std::uint32_t>(first);
+    const auto last_decimal = static_cast<std::uint32_t>(last);
+    std::vector<IPv4> range;
 
-    SECTION("IPv4 Address class string constructor validation")
+    if (first_decimal < last_decimal)
+        for (std::size_t i = first_decimal; i <= last_decimal; ++i)
+            range.emplace_back(i);
+    else
+        throw std::runtime_error{"invalid range"};
+    return range;
+}
+
+TEST_CASE("enumrate IPv4 Addresses in range", "[IPv4]")
+{
+    SECTION("valid range")
     {
-        for (const auto &[str, dec] : validIpAddresses)
-        {
-            REQUIRE_NOTHROW(IPv4{str});
-            REQUIRE_NOTHROW(IPv4{dec});
-            REQUIRE(dec == static_cast<std::uint32_t>(IPv4{str}));
-        }
-
-        for (const auto &addr : invalidIpAddresses)
-            REQUIRE_THROWS_AS(IPv4{addr}, IPv4::IpAddressException);
-    }
-
-    SECTION("testing input stream operator")
-    {
-        std::stringstream ss;
-        IPv4 ip{};
-
-        for (const auto &addr : validIpAddresses)
-        {
-            ss << addr.first;
-            CHECK_NOTHROW(ss >> ip);
-        }
-
-        ss.clear();
-
-        for (const auto &addr : invalidIpAddresses)
-        {
-            ss << addr;
-            REQUIRE_THROWS_AS(ss >> ip, IPv4::IpAddressException);
-        }
+        std::vector<std::uint32_t> expectedRange(256);
+        std::iota(expectedRange.begin(), expectedRange.end(), static_cast<std::uint32_t>(4294967040));
+        for (const auto &decimal : expectedRange)
+            REQUIRE(decimal == static_cast<std::uint32_t>(IPv4{decimal}));
     }
 }

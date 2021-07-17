@@ -9,6 +9,7 @@
 #include <string_view>
 #include <unordered_map>
 #include <vector>
+#include <numeric> 
 
 class IPv4
 {
@@ -51,7 +52,8 @@ private:
             auto byte = std::to_string(((foo >> (8 * i)) & mask).to_ulong());
             octets.push_back(byte);
         }
-
+        
+        std::reverse(octets.begin(), octets.end()); 
         return std::accumulate(
             std::next(octets.begin()),
             octets.end(),
