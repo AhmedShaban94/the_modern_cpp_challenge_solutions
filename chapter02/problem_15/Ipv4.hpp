@@ -96,6 +96,15 @@ public:
         return is;
     }
 
+    // Added for sake of testing. [iota]
+    IPv4& operator ++()
+    {
+        auto dec = static_cast<std::uint32_t>(*this); 
+        dec++;
+        *this = IPv4{dec};
+        return *this;
+    }
+
     operator std::uint32_t() const
     {
         std::istringstream ss{this->ip_};

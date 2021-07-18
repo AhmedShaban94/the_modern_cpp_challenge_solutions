@@ -27,9 +27,8 @@ TEST_CASE("enumrate IPv4 Addresses in range", "[IPv4]")
 {
     SECTION("valid range")
     {
-        std::vector<std::uint32_t> expectedRange(256);
-        std::iota(expectedRange.begin(), expectedRange.end(), static_cast<std::uint32_t>(4294967040));
-        for (const auto &decimal : expectedRange)
-            REQUIRE(decimal == static_cast<std::uint32_t>(IPv4{decimal}));
+        std::vector<IPv4> expectedRange(256);
+        std::iota(expectedRange.begin(), expectedRange.end(), IPv4{"255.255.255.0"});
+        REQUIRE(expectedRange == enumrate_IPs_in_range(IPv4{"255.255.255.0"}, IPv4{"255.255.255.255"}));
     }
 }
