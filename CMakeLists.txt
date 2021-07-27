@@ -4,7 +4,7 @@ project(modern_cpp_challenge_book)
 
 set(CMAKE_CXX_STANDARD 17)
 if(MSVC)
-    add_compile_options(/O3 /W3 /Wx)
+    add_compile_options(/O3 /W3 /Wx /permissive)
 else()
     add_compile_options(-O3 -Wall -Wextra -pedantic)
 endif()
