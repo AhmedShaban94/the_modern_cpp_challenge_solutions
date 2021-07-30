@@ -18,8 +18,8 @@ public:
     : vec{ROWS * COLS == vec.size() ? std::move(vec) 
     : throw std::runtime_error{"dimension mismatch"}} {}
     
-    Array2D(const std::initializer_list<T> &vec) 
-    : vec{ROWS * COLS == vec.size() ? vec 
+    Array2D(const std::initializer_list<T> &il) 
+    : vec{ROWS * COLS == il.size() ? il 
     : throw std::runtime_error{"dimension mismatch"}} {}
     
     Array2D(const std::vector<std::vector<T>> &vec2d)
