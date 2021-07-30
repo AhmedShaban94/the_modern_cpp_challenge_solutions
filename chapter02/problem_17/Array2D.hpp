@@ -14,8 +14,14 @@ public:
     Array2D() = default;
     ~Array2D() = default;
 
-    Array2D(std::vector<T> vec) : vec{ROWS * COLS == vec.size() ? std::move(vec) : throw std::runtime_error{"dimension mismatch"}} {}
-
+    Array2D(std::vector<T> vec) 
+    : vec{ROWS * COLS == vec.size() ? std::move(vec) 
+    : throw std::runtime_error{"dimension mismatch"}} {}
+    
+    Array2D(const std::initializer_list<T> &vec) 
+    : vec{ROWS * COLS == vec.size() ? vec 
+    : throw std::runtime_error{"dimension mismatch"}} {}
+    
     Array2D(const std::vector<std::vector<T>> &vec2d)
     {
         if (not(vec2d.size() == ROWS and vec2d.at(0).size() == COLS))

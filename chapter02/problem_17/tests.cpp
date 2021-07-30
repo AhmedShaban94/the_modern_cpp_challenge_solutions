@@ -9,13 +9,19 @@ TEST_CASE("testing Array2D class", "[Array2D]")
 
     SECTION("Testing constructors")
     {
+        // vector of vectors ctor.
         REQUIRE_NOTHROW((Array2D<std::size_t, 3, 3>{{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}}}));
-        REQUIRE_NOTHROW((Array2D<std::size_t, 3, 3>{{1, 2, 3, 4, 5, 6, 7, 8, 9}})); 
+
+        //  vector ctor.
+        REQUIRE_NOTHROW((Array2D<std::size_t, 3, 3>{{1, 2, 3, 4, 5, 6, 7, 8, 9}}));
+
+        // initializer list ctor.
+        REQUIRE_NOTHROW((Array2D<std::size_t, 3, 3>{1, 2, 3, 4, 5, 6, 7, 8, 9}));
     }
 
     SECTION("Testing Array2D")
     {
-        Array2D<std::size_t, 3, 3> arr{{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}}};
+        Array2D<std::size_t, 3, 3> arr{1, 2, 3, 4, 5, 6, 7, 8, 9};
         const auto [ROWS, COLS] = arr.size();
 
         SECTION("Testing at()")
