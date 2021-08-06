@@ -1,5 +1,9 @@
+if(DEFINED ENV{VCPKG_ROOT} AND NOT DEFINED CMAKE_TOOLCHAIN_FILE)
+    set(CMAKE_TOOLCHAIN_FILE "$ENV{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake"
+    CACHE STRING "")
+endif()
+
 cmake_minimum_required(VERSION 3.7.0)
-set(CMAKE_TOOLCHAIN_FILE /home/ahmed_shaban/workspace/vcpkg/scripts/buildsystems/vcpkg.cmake)
 project(modern_cpp_challenge_book)
 
 set(CMAKE_CXX_STANDARD 17)
