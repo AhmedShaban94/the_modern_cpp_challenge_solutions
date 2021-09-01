@@ -3,3 +3,4 @@ project(modern_cpp_challenge_book)
 
 add_executable(problem_24 main.cpp tests_main.cpp)
 set_target_properties(problem_24 PROPERTIES FOLDER "02.Language")
+add_test(NAME problem_24_tests COMMAND problem_24)
