@@ -8,7 +8,7 @@ template <typename T, std::size_t ROWS, std::size_t COLS>
 class Array2D
 {
 private:
-    std::vector<T> vec;
+    std::vector<T> vec{};
 
 public:
     Array2D() = default;
@@ -59,7 +59,7 @@ public:
 
     constexpr T const *data() const { return vec.data(); }
 
-    constexpr std::pair<std::size_t, std::size_t> size() const
+    [[nodiscard]] constexpr std::pair<std::size_t, std::size_t> size() const
     {
         return std::make_pair(ROWS, COLS);
     }

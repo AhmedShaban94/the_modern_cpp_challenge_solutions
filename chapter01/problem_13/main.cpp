@@ -4,7 +4,8 @@
 #include <iterator>
 #include <random>
 #include <vector>
-#include <functional> 
+#include <functional>
+#include <array>
 
 template <
     typename Engine = std::mt19937_64,
@@ -24,7 +25,7 @@ double compute_PI(Engine &eng, Distribution &dist, const std::size_t &samples = 
 
 int main()
 {
-    std::random_device rd;
+    std::random_device rd{};
     auto seed_data = std::array<std::size_t, std::mt19937_64::state_size>{};
     std::generate(seed_data.begin(), seed_data.end(), std::ref(rd));
     std::seed_seq seq(seed_data.begin(), seed_data.end());
