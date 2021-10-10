@@ -17,6 +17,7 @@ performance-*,\
 -performance-unnecessary-value-param,\
 portability-*,\
 clang-analyzer-*,\
+readability-*,\
+concurrency-*,\
 -clang-analyzer-security.insecureAPI.rand"
-WarningsAsErrors: '*'
 HeaderFilterRegex: 'include/.*\.hpp$'
