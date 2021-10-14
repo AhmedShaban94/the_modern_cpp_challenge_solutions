@@ -24,5 +24,5 @@ std::string CapitalizArticle(const std::string& str)
 TEST_CASE("Capitalize every first character of the word", "[capitaliz_article]")
 {
     REQUIRE(CapitalizArticle("the modern c++ challenger") == "The Modern C++ Challenger"); 
-    REQUIRE(CapitalizArticle("this is c++") == "This Is ")
+    REQUIRE(CapitalizArticle("this is c++") == "This Is C++");
 }
