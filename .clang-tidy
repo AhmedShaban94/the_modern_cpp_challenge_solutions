@@ -18,6 +18,7 @@ performance-*,\
 portability-*,\
 clang-analyzer-*,\
 readability-*,\
+-readability-braces-around-statements,\
 concurrency-*,\
 -clang-analyzer-security.insecureAPI.rand"
 HeaderFilterRegex: 'include/.*\.hpp$'
