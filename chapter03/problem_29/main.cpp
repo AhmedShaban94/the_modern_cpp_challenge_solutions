@@ -1,59 +1,60 @@
+#include "catch2/catch.hpp"
 #include <algorithm>
 #include <iostream>
+#include <regex>
 #include <sstream>
 #include <string>
 #include <vector>
 
-std::vector<std::string> tokenize(const std::string& str, const char& delimiter)
+bool validatePlateNumber(const std::string &plateNumber)
 {
-    std::string token{};
-    std::istringstream iss{ str };
-    std::vector<std::string> tokens{};
-
-    while (std::getline(iss, token, delimiter))
-        tokens.push_back(token);
-
-    return tokens;
+    // plate-format {DDD-DD NNN} or {DDD-DD NNNN}
+    const std::regex reg{R"([A-Z]{3}-[A-Z]{2} \d{3,4})"};
+    return std::regex_search(plateNumber, reg);
 }
 
-const auto is_upper_str = [](const std::string& str) {
-    return !str.empty()
-        and std::all_of(str.begin(), str.end(),
-                        [](const char& ch) { return std::isupper(ch); });
-};
-
-const auto is_number = [](const std::string& str) {
-    return !str.empty() && std::all_of(str.begin(), str.end(), ::isdigit);
-};
-
-bool validateNumber(const std::string& num)
+std::vector<std::string> extractPlateNumbers(const std::string &txt)
 {
-    return is_number(num) and (num.size() == 4 or num.size() == 3);
+    const std::regex reg{R"(([A-Z]{3}-[A-Z]{2} \d{3,4})+)"};
+    std::sregex_iterator itr{txt.begin(), txt.end(), reg};
+    std::sregex_iterator end{};
+    std::vector<std::string> results;
+
+    while (itr != end)
+    {
+        if ((*itr)[1].matched)
+            results.push_back(itr->str());
+        itr++;
+    }
+
+    return results;
 }
 
-bool validateString(const std::string& str)
+TEST_CASE("validate plate number format", "[validate_plate_number]")
 {
-    const auto splt_str = tokenize(str, '-');
-    return !splt_str.empty() and splt_str.at(0).size() == 3
-        and splt_str.at(1).size() == 2 and is_upper_str(splt_str.at(0))
-        and is_upper_str(splt_str.at(1));
+    REQUIRE(validatePlateNumber("DDD-DD 123"));
+    REQUIRE(validatePlateNumber("DDD-DD 1234"));
+    REQUIRE(validatePlateNumber("ABC-DE 123"));
+    REQUIRE(validatePlateNumber("ABC-DE 1234"));
+
+    REQUIRE_FALSE(validatePlateNumber(""));
+    REQUIRE_FALSE(validatePlateNumber("DDD-DDD 123"));
+    REQUIRE_FALSE(validatePlateNumber("DDD-dd 12"));
+    REQUIRE_FALSE(validatePlateNumber("ddd-DD 1"));
+    REQUIRE_FALSE(validatePlateNumber("DDDD-DD 1"));
+    REQUIRE_FALSE(validatePlateNumber("DDD-DD"));
+    REQUIRE_FALSE(validatePlateNumber("123-45 ABCD"));
 }
 
-int main()
+TEST_CASE("extract plate number from a given text", "[extract_plate_number]")
 {
-    // const std::string str{ "AAA-AA 111" };
-    // std::pair<std::string, std::string> plate;
-    // std::string token;
-    // std::vector<std::string> tokens;
-    // std::istringstream iss{ str };
-    // while (std::getline(iss, token, ' '))
-    //     tokens.push_back(token);
-    // if (tokens.size() == 2)
-    // {
-    //     plate.first  = tokens.at(0);
-    //     plate.second = tokens.at(1);
-    // }
-    const std::string str{ "AHMED" };
-
-    return EXIT_SUCCESS;
+    const std::string text{"AAA-AA 123qwe-ty 1234 ABC-DE 123456..XYZ-WW 0001"}; 
+    const std::vector<std::string> expected {"AAA-AA 123", "ABC-DE 1234", "XYZ-WW 0001"};
+    REQUIRE(expected == extractPlateNumbers(text)); 
 }
+
+// int main()
+// {
+//     std::cout << std::boolalpha << validatePlateNumber("DDD-DD 123") << '\n';
+//     return EXIT_SUCCESS; 
+// }
