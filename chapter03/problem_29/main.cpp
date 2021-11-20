@@ -52,9 +52,3 @@ TEST_CASE("extract plate number from a given text", "[extract_plate_number]")
     const std::vector<std::string> expected {"AAA-AA 123", "ABC-DE 1234", "XYZ-WW 0001"};
     REQUIRE(expected == extractPlateNumbers(text)); 
 }
-
-// int main()
-// {
-//     std::cout << std::boolalpha << validatePlateNumber("DDD-DD 123") << '\n';
-//     return EXIT_SUCCESS; 
-// }
