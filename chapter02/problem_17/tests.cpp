@@ -111,7 +111,7 @@ TEST_CASE("testing Array2D class", "[Array2D]")
         {
             constexpr auto VALUE{10};
             arr.fill(VALUE);
-            std::for_each(arr.begin(), arr.end(), [](const auto &ele) { REQUIRE(ele == VALUE); });
+            std::for_each(arr.begin(), arr.end(), [VALUE](const auto &ele) { REQUIRE(ele == VALUE); });
         }
 
         SECTION("Testing swap()")

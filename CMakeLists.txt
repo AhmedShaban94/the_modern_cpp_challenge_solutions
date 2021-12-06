@@ -1,10 +1,4 @@
-if(DEFINED ENV{VCPKG_ROOT} AND NOT DEFINED CMAKE_TOOLCHAIN_FILE)
-  set(CMAKE_TOOLCHAIN_FILE
-      "$ENV{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake"
-      CACHE STRING "")
-endif()
-
-cmake_minimum_required(VERSION 3.7.0)
+cmake_minimum_required(VERSION 3.11)
 project(modern_cpp_challenge_book)
 
 set(CMAKE_CXX_STANDARD 17)
@@ -18,9 +12,17 @@ endif()
 option(ENABLE_TESTS "Enable tests" ON)
 message("Enable testing status: ${ENABLE_TESTS}")
 if(${ENABLE_TESTS})
-  enable_testing()
-  find_package(Catch2 REQUIRED)
+  Include(FetchContent)
+  set(FETCHCONTENT_QUIET off)
+  set(FETCHCONTENT_BASE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/external)
+  FetchContent_Declare(
+      Catch2
+      GIT_REPOSITORY https://github.com/catchorg/Catch2.git
+      GIT_TAG        v2.13.1
+  )
+  FetchContent_MakeAvailable(Catch2)
   link_libraries(Catch2::Catch2)
+  include_directories(${catch2_SOURCE_DIR}/single_include)
 endif()
 
 add_subdirectory(chapter01)

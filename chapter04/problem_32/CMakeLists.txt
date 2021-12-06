@@ -3,4 +3,3 @@ project(modern_cpp_challenge_book)
 
 add_executable(problem_32 main.cpp tests_main.cpp)
 set_target_properties(problem_32 PROPERTIES FOLDER "03.Streams")
-add_test(NAME problem_32_tests COMMAND problem_32)
