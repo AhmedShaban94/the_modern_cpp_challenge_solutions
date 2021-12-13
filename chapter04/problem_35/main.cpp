@@ -3,7 +3,6 @@
 #include <iostream>
 
 namespace fs = std::experimental::filesystem;
-
 struct HumanReadable
 {
     std::uintmax_t size{};
@@ -25,6 +24,12 @@ struct HumanReadable
 auto directorySize(const std::string &pathString, bool followSymbolicLink)
 {
     const auto path = fs::path{pathString};
+    if (!fs::exists(path))
+    {
+        std::cerr << "Directory doesn't exists.";
+        std::exit(EXIT_FAILURE);
+    }
+
     const auto directoryOption = (followSymbolicLink ? fs::directory_options::follow_directory_symlink
                                                      : fs::directory_options::none);
     std::uintmax_t size{0};
@@ -36,8 +41,9 @@ auto directorySize(const std::string &pathString, bool followSymbolicLink)
 
 int main()
 {
-
-    const fs::path directoryPathString{"/home/ahmed_shaban/workspace/cpp_workspace/the_modern_cpp_challenge_solutions/build"};
-    std::cout << HumanReadable{directorySize(directoryPathString, false)} << '\n';
+    std::cout << "Enter path to specified directory\n";
+    std::string pathString{};
+    std::getline(std::cin, pathString);
+    std::cout << "Directory size: " << HumanReadable{directorySize(pathString, false)} << '\n';
     return EXIT_SUCCESS;
 }
