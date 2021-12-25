@@ -3,6 +3,7 @@ project(modern_cpp_challenge_book)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_CLANG_TIDY "clang-tidy")
+
 if(MSVC)
   add_compile_options(/W3 /permissive-)
 else()
