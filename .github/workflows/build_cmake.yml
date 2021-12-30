@@ -103,9 +103,9 @@ jobs:
       
       - name: Build
         shell: bash
-        run: cmake --build . --config ${{ matrix.config.build_type }} -j 14
+        run: cmake --build . --config ${{ matrix.config.build_type }} -j
 
       - name: Test
         shell: bash
         run: |
-          ctest --test-dir build -j14 -C ${{ matrix.config.build_type }} -T test --output-on-failure
+          ctest --test-dir build -j -C ${{ matrix.config.build_type }} -T test --output-on-failure

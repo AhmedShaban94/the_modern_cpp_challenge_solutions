@@ -25,21 +25,30 @@ void deleteFilesOlderThanDuration(const std::string& directory,
     if (fs::exists(path))
     {
         if (is_older_than(path, duration))
-        {
             fs::remove_all(path);
-        }
         else
         {
             for (const auto& entry : fs::recursive_directory_iterator(path))
                 if (fs::is_regular_file(entry)
                     and is_older_than(entry, duration))
+                {
                     fs::remove(entry);
+                }
         }
     }
+    else
+        throw std::runtime_error{ "File not found!!!" };
 }
 
 int main()
 {
-    deleteFilesOlderThanDuration("test", 1s);
+    try
+    {
+        deleteFilesOlderThanDuration("test", 1s);
+    }
+    catch (const std::exception& ex)
+    {
+        std::cerr << ex.what() << '\n';
+    }
     return EXIT_SUCCESS;
 }
