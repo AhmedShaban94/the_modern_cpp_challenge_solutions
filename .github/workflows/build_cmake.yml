@@ -81,7 +81,11 @@ jobs:
       - name: Install dependencies on macos
         if: startsWith(matrix.config.os, 'macos')
         run: |
-          brew install p7zip cmake ninja clang-tidy
+          brew install p7zip cmake ninja
+          brew install llvm
+          ln -s "$(brew --prefix llvm)/bin/clang-format" "/usr/local/bin/clang-format"
+          ln -s "$(brew --prefix llvm)/bin/clang-tidy" "/usr/local/bin/clang-tidy"
+          ln -s "$(brew --prefix llvm)/bin/clang-apply-replacements" "/usr/local/bin/clang-apply-replacements"
           ninja --version
           cmake --version
           
@@ -99,10 +103,9 @@ jobs:
       
       - name: Build
         shell: bash
-        run: cmake --build . --config ${{ matrix.config.build_type }}
+        run: cmake --build . --config ${{ matrix.config.build_type }} -j 14
 
       - name: Test
         shell: bash
         run: |
-          make test
-          ctest
+          ctest --test-dir build -j14 -C ${{ matrix.config.build_type }} -T test --output-on-failure
