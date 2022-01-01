@@ -3,7 +3,8 @@ project(modern_cpp_challenge_book)
 
 add_executable(problem_37 main.cpp)
 set_target_properties(problem_37 PROPERTIES FOLDER "03.Streams")
-target_link_libraries(problem_37 PRIVATE stdc++fs)
+target_link_libraries(problem_37 PRIVATE $<$<PLATFORM_ID:Linux>:stdc++fs>)
+
 add_custom_command(
     TARGET problem_37 POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_directory
