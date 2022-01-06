@@ -108,4 +108,4 @@ jobs:
       - name: Test
         shell: bash
         run: |
-          ctest --test-dir build -j -C ${{ matrix.config.build_type }} -T test --output-on-failure
+          cd build && ctest -j -C ${{ matrix.config.build_type }} -T test --output-on-failure
