@@ -66,7 +66,7 @@ TEST_CASE("parse URL given uri text", "[parse_url]")
     const auto parts = parse_url(url);
     REQUIRE(parts.has_value());
     REQUIRE(parts.value().protocol == "https"s);
-    REQUIRE(parts.value().domain == "pamkt.com"s);
+    REQUIRE(parts.value().domain == "packt.com"s);
 
     REQUIRE_FALSE(parts.value().port.has_value());
     REQUIRE_FALSE(parts.value().path.has_value());
