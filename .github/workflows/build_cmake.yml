@@ -1,21 +1,15 @@
 # This is a basic workflow to help you get started with Actions
 name: CMake Build Matrix
-
-# Controls when the action will run. Triggers the workflow on push
 on: 
   push:
   pull_request:
   release:
-    # tags:
-    # - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
   build:
-    # The type of runner that the job will run on
     name: ${{ matrix.config.name }}
-    runs-on: ${{ matrix.config.os }} # будет запускаться по очереди на всех типах машин
+    runs-on: ${{ matrix.config.os }}
     strategy:
       fail-fast: false
       matrix:
@@ -101,7 +95,7 @@ jobs:
       - name: Build
         shell: bash
         run: |
-          cmake --build build --config ${{ matrix.config.build_type }} --target ALL_BUILD -j 14 --
+          cmake --build build --config ${{ matrix.config.build_type }} -j 14 --
 
       - name: Test
         shell: bash
