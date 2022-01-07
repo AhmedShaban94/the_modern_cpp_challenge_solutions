@@ -17,9 +17,9 @@ public:
         const auto end = clock_t::now();
         std::cout << "Execution time: " << std::chrono::duration_cast<duration_t>(end - start).count();
         if (std::is_same_v<std::chrono::seconds, duration_t>)
-            std::cout << " s.\n";
+            std::cout << " sec.\n";
         else if (std::is_same_v<std::chrono::milliseconds, duration_t>)
-            std::cout << " milli.\n";
+            std::cout << " ms.\n";
         else if (std::is_same_v<std::chrono::microseconds, duration_t>)
             std::cout << " µs\n";
         else if (std::is_same_v<std::chrono::nanoseconds, duration_t>)
