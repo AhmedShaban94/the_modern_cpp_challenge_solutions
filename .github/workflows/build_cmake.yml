@@ -53,7 +53,6 @@ jobs:
           }
 
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
       - name: Print env
@@ -67,7 +66,6 @@ jobs:
           choco install ninja cmake
           ninja --version
           cmake --version
-        # cmd "${{ matrix.config.environment_script }}"
 
       - name: Install dependencies on ubuntu
         if: startsWith(matrix.config.name, 'Ubuntu_Latest_GCC')
@@ -103,9 +101,10 @@ jobs:
       - name: Build
         shell: bash
         run: |
-          cmake --build build --config ${{ matrix.config.build_type }} -j
+          cmake --build build --config ${{ matrix.config.build_type }} --target ALL_BUILD -j 14 --
 
       - name: Test
         shell: bash
         run: |
-          ctest -j -C ${{ matrix.config.build_type }} -T test --output-on-failure
+          cd build
+          ctest -j14 -C ${{ matrix.config.build_type }} -T test --output-on-failure
