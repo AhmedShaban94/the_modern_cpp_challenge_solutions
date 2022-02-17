@@ -1,4 +1,3 @@
-#include "catch2/catch.hpp"
 #include "pugixml.hpp"
 #include <iostream>
 #include <optional>
@@ -85,7 +84,7 @@ void serializeMovies(const std::vector<Movie>& movies,
     doc.save_file(xmlFileName.c_str());
 }
 
-std::optional<std::vector<Movie>> deserializaeMovies(std::string sourceFile)
+std::optional<std::vector<Movie>> deserialiazeMovies(std::string sourceFile)
 {
     pugi::xml_document doc{};
     const auto result = doc.load_file(sourceFile.c_str());
@@ -142,15 +141,7 @@ std::optional<std::vector<Movie>> deserializaeMovies(std::string sourceFile)
 
 int main()
 {
-    // std::vector<Movie> movies{ { 9871,
-    //                              "ahmed",
-    //                              1994,
-    //                              122,
-    //                              { "ahmed", "mohamed" },
-    //                              { "hossam", "hassan" },
-    //                              { { "mohamed", "lemby" } } } };
-    // serializeMovies(movies, "test_serialize.xml");
-    const auto movies = deserializaeMovies("test_serialize.xml");
+    const auto movies = deserialiazeMovies("data/movies.xml");
     for (const auto& movie : movies.value())
         std::cout << movie << '\n';
     return EXIT_SUCCESS;

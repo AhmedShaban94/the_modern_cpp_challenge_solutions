@@ -38,6 +38,13 @@ void printMonthCalender(const date_t &date)
 int main()
 {
     using namespace date::literals;
-    printMonthCalender(2022_y / dec / 13);
+    try 
+    {
+        printMonthCalender(2022_y / dec / 13);
+    }
+    catch(const std::exception& ex)
+    {
+        std::cerr << "Error: " << ex.what() << '\n';
+    }
     return EXIT_SUCCESS;
 }
