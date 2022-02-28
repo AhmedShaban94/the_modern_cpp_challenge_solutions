@@ -84,7 +84,7 @@ void serializeMovies(const std::vector<Movie>& movies,
     doc.save_file(xmlFileName.c_str());
 }
 
-std::optional<std::vector<Movie>> deserialiazeMovies(std::string sourceFile)
+std::optional<std::vector<Movie>> deserializeMovies(std::string sourceFile)
 {
     pugi::xml_document doc{};
     const auto result = doc.load_file(sourceFile.c_str());
@@ -141,7 +141,7 @@ std::optional<std::vector<Movie>> deserialiazeMovies(std::string sourceFile)
 
 int main()
 {
-    const auto movies = deserialiazeMovies("data/movies.xml");
+    const auto movies = deserializeMovies("data/movies.xml");
     for (const auto& movie : movies.value())
         std::cout << movie << '\n';
     return EXIT_SUCCESS;
