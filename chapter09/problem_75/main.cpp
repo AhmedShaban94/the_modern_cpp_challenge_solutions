@@ -18,9 +18,9 @@ struct Movie
     std::size_t year_{};
     std::size_t length_{};
 
+    std::vector<CastingRole> cast_{};
     std::vector<std::string> directors_{};
     std::vector<std::string> writers_{};
-    std::vector<CastingRole> cast_{};
 };
 
 void to_json(nlohmann::json& j, const CastingRole& role)
@@ -57,24 +57,36 @@ void serializeJSON(const std::vector<Movie>& movies,
 
 int main()
 {
-    Movie forrest_gump{};
-    forrest_gump.id_        = 9871;
-    forrest_gump.title_     = "Forrest Gump";
-    forrest_gump.year_      = 1994;
-    forrest_gump.length_    = 202;
-    forrest_gump.cast_      = { { "Tom Hanks", "Forrest Gump" },
-                           { "Sally Field", "Mrs. Gump" },
-                           { "Robin Wright", "Jenny Curran" },
-                           { "Mykelti Williamson", "Bubba Blue" } };
-    forrest_gump.directors_ = { "Robert Zemeckis" };
-    forrest_gump.writers_   = { "Winston Groom", "Eric Roth" };
+    std::vector<Movie> movies{ {
+                                   11001,
+                                   "The Matrix",
+                                   1999,
+                                   196,
+                                   { { "Keanu Reeves", "Neo" },
+                                     { "Laurence Fishburne", "Morpheus" },
+                                     { "Carrie-Anne Moss", "Trinity" },
+                                     { "Hugo Weaving", "Agent Smith" } },
+                                   { "Lana Wachowski", "Lilly Wachowski" },
+                                   { "Lana Wachowski", "Lilly Wachowski" },
+                               },
+                               {
+                                   9871,
+                                   "Forrest Gump",
+                                   1994,
+                                   202,
+                                   { { "Tom Hanks", "Forrest Gump" },
+                                     { "Sally Field", "Mrs. Gump" },
+                                     { "Robin Wright", "Jenny Curran" },
+                                     { "Mykelti Williamson", "Bubba Blue" } },
+                                   { "Robert Zemeckis" },
+                                   { "Winston Groom", "Eric Roth" },
+                               } };
 
-    std::vector<Movie> movies{ forrest_gump };
     try
     {
         serializeJSON(movies, "movies.json");
     }
-    catch(const std::exception& ex)
+    catch (const std::exception& ex)
     {
         std::cerr << "ERROR: " << ex.what() << '\n';
     }
