@@ -19,6 +19,7 @@ portability-*,\
 clang-analyzer-*,\
 readability-*,\
 -readability-braces-around-statements,\
+-readability-magic-numbers,\
 concurrency-*,\
 -clang-analyzer-security.insecureAPI.rand"
 HeaderFilterRegex: 'include/.*\.hpp$'
