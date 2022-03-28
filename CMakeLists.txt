@@ -7,7 +7,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_CXX_CLANG_TIDY "clang-tidy")
 
 if(MSVC)
-  add_compile_options(/W3 /WX /permissive-)
+  add_compile_options(/W3 /permissive-)
   string(APPEND CMAKE_CXX_FLAGS " /Zc:__cplusplus")
 else()
   add_compile_options(-O3 -Wall -Wextra -pedantic)
