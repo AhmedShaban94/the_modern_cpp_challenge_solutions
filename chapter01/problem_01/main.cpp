@@ -3,7 +3,7 @@
 #include <numeric>
 #include <vector>
 
-std::size_t sumOfDivisableNumbers(const std::size_t& limit)
+std::size_t sumOfDivisibleNumbers(const std::size_t& limit)
 {
     std::vector<std::size_t> vec{};
 
@@ -14,13 +14,13 @@ std::size_t sumOfDivisableNumbers(const std::size_t& limit)
     return std::accumulate(vec.begin(), vec.end(), static_cast<std::size_t>(0));
 }
 
-// Chapter-1 -> problem 1  (sum of divisable numbers on 3 or 5)
-TEST_CASE("Count days between two dates", "[days_between_two_dates]")
+// Chapter-1 -> problem 1  (sum of divisible numbers on 3 or 5)
+TEST_CASE("Get sum of divisible numbers", "[sum_of_divisible_numbers]")
 {
-    REQUIRE(sumOfDivisableNumbers(10) == 33);
-    REQUIRE(sumOfDivisableNumbers(15) == 60);
-    REQUIRE(sumOfDivisableNumbers(22) == 119);
-    REQUIRE(sumOfDivisableNumbers(35) == 293);
-    REQUIRE(sumOfDivisableNumbers(50) == 593);
-    REQUIRE(sumOfDivisableNumbers(100) == 2418);
+    REQUIRE(sumOfDivisibleNumbers(10) == 33);
+    REQUIRE(sumOfDivisibleNumbers(15) == 60);
+    REQUIRE(sumOfDivisibleNumbers(22) == 119);
+    REQUIRE(sumOfDivisibleNumbers(35) == 293);
+    REQUIRE(sumOfDivisibleNumbers(50) == 593);
+    REQUIRE(sumOfDivisibleNumbers(100) == 2418);
 }
