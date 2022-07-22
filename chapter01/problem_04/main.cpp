@@ -1,19 +1,26 @@
+#include "catch2/catch.hpp"
 #include <iostream>
 
-// chapter-1 -> problem4 (largest prime smaller than given number)
-int main()
+std::size_t largestPrimeSmallerThanGivenNumber(const std::size_t& limit)
 {
-    unsigned int limit{ 0 }, prime{ 0 };
-    std::cout << "Enter the number\n";
-    std::cin >> limit;
+    constexpr auto is_prime = [](const auto& num) -> bool {
+        for (size_t i = 2; i < num; ++i)
+            if (num % i == 0)
+                return false;
+        return true;
+    };
 
-    for (std::size_t i = 2; i < limit; ++i)
-    {
-        for (std::size_t j = 0; j <= i; ++j)
-            if (j % i == 0)
-                prime = i;
-    }
-    std::cout << "largest prime number before the given limit " << limit
-              << " is :" << prime << '\n';
-    return EXIT_SUCCESS;
+    std::size_t prime{ 0 };
+    for (std::size_t i = limit; i > 1; --i)
+        if (is_prime(i))
+            return i;
+}
+
+// chapter-1 -> problem4 (largest prime smaller than given number)
+TEST_CASE("Get largest prime smaller than given number", "[largest_prime]")
+{
+    REQUIRE(largestPrimeSmallerThanGivenNumber(100) == 97);
+    REQUIRE(largestPrimeSmallerThanGivenNumber(200) == 199);
+    REQUIRE(largestPrimeSmallerThanGivenNumber(250) == 241);
+    REQUIRE(largestPrimeSmallerThanGivenNumber(685) == 683);
 }
