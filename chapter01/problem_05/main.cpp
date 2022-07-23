@@ -1,53 +1,31 @@
+#include "catch2/catch.hpp"
 #include <algorithm>
 #include <iostream>
 #include <vector>
 
-// chapter-1 -> problem5 (sexy prime numbers)
-int main()
+using PairsVector = std::vector<std::pair<std::size_t, std::size_t>>;
+
+PairsVector sexyPrimePairs(const std::size_t& limit)
 {
-    unsigned int limit{};
-    std::vector<int> prime_nums, sexy_primes;
-    std::cout << "Enter the limit number\n";
-    std::cin >> limit;
-    auto is_prime = [](const auto& num) -> bool {
+    auto is_prime = [](const auto& num) {
         for (size_t i = 2; i < num; ++i)
             if (num % i == 0)
                 return false;
         return true;
     };
 
-    for (std::size_t i = 2; i <= limit; ++i)
-        if (is_prime(i))
-            prime_nums.push_back(i);
+    PairsVector sexyPrimes{};
+    for (std::size_t i = 2; i <= limit - 6; ++i)
+        if (is_prime(i) and is_prime(i + 6))
+            sexyPrimes.emplace_back(i, i + 6);
+    return sexyPrimes;
+}
 
-    for (std::size_t i = 2; i < prime_nums.size(); ++i)
-    {
-        for (std::size_t j = 2; j < i; ++j)
-        {
-            if ((prime_nums.at(i) - prime_nums.at(j)) == 6)
-            {
-                sexy_primes.push_back(prime_nums.at(j));
-                sexy_primes.push_back(prime_nums.at(i));
-            }
-        }
-    }
-
-    std::sort(sexy_primes.begin(), sexy_primes.end());
-    sexy_primes.erase(std::unique(sexy_primes.begin(), sexy_primes.end()),
-                      sexy_primes.end());
-
-    std::vector<std::pair<int, int>> sexy_pairs;
-    for (const auto& sexy_num : sexy_primes)
-        for (int i = 2; i < sexy_num; ++i)
-            if (sexy_num - i == 6
-                && std::find(sexy_primes.begin(), sexy_primes.end(), i)
-                    != sexy_primes.end())
-                sexy_pairs.emplace_back(i, sexy_num);
-
-    std::cout << "===================================\n"
-              << "sexy primes for given limit of " << limit << " is:\n";
-    for (const auto& pair : sexy_pairs)
-        std::cout << '(' << pair.first << ", " << pair.second << ')' << '\n';
-
-    return EXIT_SUCCESS;
+// chapter-1 -> problem5 (sexy prime pairs)
+TEST_CASE("Get sexy prime pairs with given number", "[sexy_prime_pairs]")
+{
+    PairsVector expectedVec{ { 5, 11 },  { 7, 13 },  { 11, 17 }, { 13, 19 },
+                             { 17, 23 }, { 23, 29 }, { 31, 37 }, { 37, 43 },
+                             { 41, 47 }, { 47, 53 }, { 53, 59 } };
+    REQUIRE(sexyPrimePairs(59) == expectedVec);
 }

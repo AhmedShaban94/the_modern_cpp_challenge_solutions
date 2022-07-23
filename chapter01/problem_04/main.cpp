@@ -17,7 +17,8 @@ std::size_t largestPrimeSmallerThanGivenNumber(const std::size_t& limit)
 }
 
 // chapter-1 -> problem4 (largest prime smaller than given number)
-TEST_CASE("Get largest prime smaller than given number", "[largest_prime]")
+TEST_CASE("Get largest prime smaller than given number",
+          "[largest_prime_smaller_than_given_number]")
 {
     REQUIRE(largestPrimeSmallerThanGivenNumber(100) == 97);
     REQUIRE(largestPrimeSmallerThanGivenNumber(200) == 199);
