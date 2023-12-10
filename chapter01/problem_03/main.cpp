@@ -1,13 +1,12 @@
-#include "catch2/catch.hpp"
 #include <iostream>
 #include <numeric>
 
+#include "catch2/catch.hpp"
+
 std::size_t leastCommonMultiple(const std::size_t& num1,
-                                const std::size_t& num2)
-{
+                                const std::size_t& num2) {
     auto max = (num1 > num2) ? num1 : num2;
-    do
-    {
+    do {
         if (max % num1 == 0 && max % num2 == 0)
             return max;
         ++max;
@@ -15,8 +14,7 @@ std::size_t leastCommonMultiple(const std::size_t& num1,
 }
 
 // chapter-1 -> problem 3 (least common multiple)
-TEST_CASE("Get least common multiple", "[least_common_multiple]")
-{
+TEST_CASE("Get least common multiple", "[least_common_multiple]") {
     REQUIRE(leastCommonMultiple(10, 5) == std::lcm(10, 5));
     REQUIRE(leastCommonMultiple(15, 3) == std::lcm(15, 3));
     REQUIRE(leastCommonMultiple(22, 2) == std::lcm(22, 2));

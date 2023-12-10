@@ -1,23 +1,21 @@
-#include "catch2/catch.hpp"
 #include <iostream>
 #include <numeric>
 
-std::size_t greatestCommonDivisor(std::size_t num1, std::size_t num2)
-{
+#include "catch2/catch.hpp"
 
-    while (num2 != 0)
-    {
+std::size_t greatestCommonDivisor(std::size_t num1, std::size_t num2) {
+
+    while (num2 != 0) {
         auto t = num1 % num2;
-        num1   = num2;
-        num2   = t;
+        num1 = num2;
+        num2 = t;
     }
 
     return num1;
 }
 
 // chapter 1 -> problem 2 (greatest common divisor)
-TEST_CASE("Get greatest common divisor", "[greatest_common_divisor]")
-{
+TEST_CASE("Get greatest common divisor", "[greatest_common_divisor]") {
     REQUIRE(greatestCommonDivisor(10, 5) == std::gcd(10, 5));
     REQUIRE(greatestCommonDivisor(15, 3) == std::gcd(15, 3));
     REQUIRE(greatestCommonDivisor(22, 2) == std::gcd(22, 2));
