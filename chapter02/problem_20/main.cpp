@@ -33,7 +33,7 @@ bool contains_none(const Container& cont, Args... args) {
 }
 
 TEST_CASE("Testing (contains) functions", "[contains]") {
-    std::vector<std::size_t> vec{1, 2, 3, 4, 5, 6, 7, 8};
+    std::vector<size_t> vec{1, 2, 3, 4, 5, 6, 7, 8};
 
     SECTION("Testing (contains_any)") {
 

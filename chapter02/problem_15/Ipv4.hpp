@@ -4,6 +4,7 @@
 #include <exception>
 #include <iomanip>
 #include <iostream>
+#include <limits>
 #include <numeric>
 #include <sstream>
 #include <string>
@@ -12,6 +13,9 @@
 #include <vector>
 
 class IPv4 {
+
+    class IpAddressException;
+
    private:
     std::string ip_;
 
@@ -20,7 +24,7 @@ class IPv4 {
         ss << ip;
 
         std::string token;
-        std::size_t token_counter{0};
+        size_t token_counter{0};
         auto is_number = [](const std::string& str) {
             return !str.empty() &&
                    std::all_of(str.begin(), str.end(), ::isdigit);
@@ -39,13 +43,13 @@ class IPv4 {
         return ss.str();
     }
 
-    std::string to_string(const std::size_t& decimal) const {
+    std::string to_string(const size_t& decimal) const {
         std::vector<std::string> octets;
         constexpr uint8_t numBits = 32;
         std::bitset<numBits> foo(decimal);
         std::bitset<numBits> mask(0xff);
 
-        for (std::size_t i = 0; i < numBits / 8; ++i) {
+        for (size_t i = 0; i < numBits / 8; ++i) {
             auto byte = std::to_string(((foo >> (8 * i)) & mask).to_ulong());
             octets.push_back(byte);
         }
@@ -60,7 +64,7 @@ class IPv4 {
     IPv4() = default;
     explicit IPv4(const std::string_view str) : ip_{validate_ip_addr(str)} {}
 
-    explicit IPv4(const std::size_t& decimal)
+    explicit IPv4(const size_t& decimal)
         : ip_(validate_ip_addr(to_string(decimal))) {}
 
     IPv4(const IPv4&) = default;
@@ -78,7 +82,7 @@ class IPv4 {
 
     friend std::istream& operator>>(std::istream& is, IPv4& ip) {
         is >> std::setw(15);
-        is.ignore(std::numeric_limits<std::size_t>::max(), '\n');
+        is.ignore(std::numeric_limits<size_t>::max(), '\n');
         std::getline(is, ip.ip_);
         ip.validate_ip_addr(ip.ip_);
         return is;
@@ -86,13 +90,13 @@ class IPv4 {
 
     // Added for sake of testing. [iota]
     IPv4& operator++() {
-        auto dec = static_cast<std::uint32_t>(*this);
+        auto dec = static_cast<uint32_t>(*this);
         dec++;
         *this = IPv4{dec};
         return *this;
     }
 
-    operator std::uint32_t() const {
+    operator uint32_t() const {
         std::istringstream ss{this->ip_};
         std::string token;
         std::string binary_string;

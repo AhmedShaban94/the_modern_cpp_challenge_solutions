@@ -11,7 +11,7 @@
 // 2- loop over this list and push_back to a new list the numbers
 // which achieves the criteria.
 
-bool is_armstrong(const std::size_t& number) {
+bool is_armstrong(const size_t& number) {
     size_t total = 0;
     const std::string num_str = std::to_string(number);
     for (const auto& ch : num_str)

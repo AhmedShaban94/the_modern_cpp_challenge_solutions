@@ -2,7 +2,7 @@
 
 #include <catch2/catch_test_macros.hpp>
 
-std::size_t largestPrimeSmallerThanGivenNumber(const std::size_t& limit) {
+size_t largestPrimeSmallerThanGivenNumber(const size_t& limit) {
     constexpr auto is_prime = [](const auto& num) -> bool {
         for (size_t i = 2; i < num; ++i)
             if (num % i == 0)
@@ -10,8 +10,8 @@ std::size_t largestPrimeSmallerThanGivenNumber(const std::size_t& limit) {
         return true;
     };
 
-    std::size_t prime{0};
-    for (std::size_t i = limit; i > 1; --i)
+    size_t prime{0};
+    for (size_t i = limit; i > 1; --i)
         if (is_prime(i))
             return i;
 }

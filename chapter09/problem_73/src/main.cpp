@@ -9,10 +9,10 @@ struct CastingRole {
 };
 
 struct Movie {
-    std::size_t id_{};
+    size_t id_{};
     std::string title_{};
-    std::size_t year_{};
-    std::size_t length_{};
+    size_t year_{};
+    size_t length_{};
 
     std::vector<std::string> directors_{};
     std::vector<std::string> writers_{};

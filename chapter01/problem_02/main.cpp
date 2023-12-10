@@ -3,7 +3,7 @@
 
 #include <catch2/catch_test_macros.hpp>
 
-std::size_t greatestCommonDivisor(std::size_t num1, std::size_t num2) {
+size_t greatestCommonDivisor(size_t num1, size_t num2) {
 
     while (num2 != 0) {
         auto t = num1 % num2;

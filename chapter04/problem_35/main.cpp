@@ -7,7 +7,7 @@ namespace fs = std::filesystem;
 struct HumanReadable {
     std::uintmax_t size{};
     friend std::ostream& operator<<(std::ostream& os, HumanReadable hr) {
-        std::size_t i{};
+        size_t i{};
         double mantissa = hr.size;
         while (mantissa >= 1024.) {
             mantissa /= 1024.;

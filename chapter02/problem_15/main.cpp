@@ -2,7 +2,7 @@
 #include "catch2/catch_test_macros.hpp"
 
 TEST_CASE("IPv4 Address class constructor validation", "[IPv4]") {
-    const std::unordered_map<std::string, std::uint32_t> validIpAddresses{
+    const std::unordered_map<std::string, uint32_t> validIpAddresses{
         {"255.255.255.255", 4294967295}, {"128.147.0.1", 2157117441},
         {"123.70.50.1", 2068197889},     {"128.107.20.1", 2154501121},
         {"128.107.30.1", 2154503681},    {"128.107.20.10", 2154501130},
@@ -22,7 +22,7 @@ TEST_CASE("IPv4 Address class constructor validation", "[IPv4]") {
         for (const auto& [str, dec] : validIpAddresses) {
             REQUIRE_NOTHROW(IPv4{str});
             REQUIRE_NOTHROW(IPv4{dec});
-            REQUIRE(dec == static_cast<std::uint32_t>(IPv4{str}));
+            REQUIRE(dec == static_cast<uint32_t>(IPv4{str}));
         }
 
         for (const auto& addr : invalidIpAddresses)

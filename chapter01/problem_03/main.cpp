@@ -3,8 +3,8 @@
 
 #include "catch2/catch_test_macros.hpp"
 
-std::size_t leastCommonMultiple(const std::size_t& num1,
-                                const std::size_t& num2) {
+size_t leastCommonMultiple(const size_t& num1,
+                                const size_t& num2) {
     auto max = (num1 > num2) ? num1 : num2;
     do {
         if (max % num1 == 0 && max % num2 == 0)

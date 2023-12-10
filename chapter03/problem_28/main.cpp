@@ -14,8 +14,8 @@ std::string longestPalindrome(const std::string& str) {
     };
 
     std::vector<std::string> palindromes;
-    for (std::size_t i{0}; i < str.size(); ++i) {
-        for (std::size_t j{i + 1}; j < str.size(); ++j) {
+    for (size_t i{0}; i < str.size(); ++i) {
+        for (size_t j{i + 1}; j < str.size(); ++j) {
             std::string substr = str.substr(i, j - i + 1);
             if (is_palindrome(substr))
                 palindromes.push_back(substr);

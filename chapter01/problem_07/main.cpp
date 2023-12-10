@@ -4,20 +4,20 @@
 
 #include "catch2/catch_test_macros.hpp"
 
-using AmicablePair = std::pair<std::size_t, std::size_t>;
+using AmicablePair = std::pair<size_t, size_t>;
 
-std::size_t sum_proper_divisors(const std::size_t& number) {
-    std::size_t result = 1;
-    for (std::size_t i = 2; i <= std::sqrt(number); i++) {
+size_t sum_proper_divisors(const size_t& number) {
+    size_t result = 1;
+    for (size_t i = 2; i <= std::sqrt(number); i++) {
         if (number % i == 0)
             result += (i == (number / i)) ? i : (i + number / i);
     }
     return result;
 }
 
-std::vector<AmicablePair> getAmicableNumbers(const std::size_t& limit) {
+std::vector<AmicablePair> getAmicableNumbers(const size_t& limit) {
     std::vector<AmicablePair> amicablePairs{};
-    for (std::size_t number = 4; number < limit; ++number) {
+    for (size_t number = 4; number < limit; ++number) {
         const auto sum1 = sum_proper_divisors(number);
         if (sum1 < limit) {
             auto sum2 = sum_proper_divisors(sum1);

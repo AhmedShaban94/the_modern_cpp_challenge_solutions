@@ -21,11 +21,11 @@ void printMonthCalender(const date_t& date) {
             date::month_day_last{
                 date.month()}}.day());
 
-    std::size_t index = 1;
-    for (std::size_t day{1}; day < calenderFirstDay; ++day, ++index) {
+    size_t index = 1;
+    for (size_t day{1}; day < calenderFirstDay; ++day, ++index) {
         std::cout << " ";
     }
-    for (std::size_t day{1}; day <= calenderLastDay; ++day) {
+    for (size_t day{1}; day <= calenderLastDay; ++day) {
         std::cout << std::right << std::setfill(' ') << std::setw(3) << day
                   << ' ';
         if (index++ % 7 == 0)

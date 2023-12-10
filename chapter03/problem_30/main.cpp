@@ -8,7 +8,7 @@
 struct urlParts {
     std::string protocol;
     std::string domain;
-    std::optional<std::size_t> port;
+    std::optional<size_t> port;
     std::optional<std::string> path;
     std::optional<std::string> query;
     std::optional<std::string> fragment;

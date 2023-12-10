@@ -9,10 +9,10 @@ enum class PLATFORM { x32_BIT, x64_BIT };
 
 struct ProcessInfo {
     std::string name;
-    std::size_t pid;
+    size_t pid;
     STATUS status;
     std::string accountName;
-    std::size_t memorySize;
+    size_t memorySize;
     PLATFORM platform;
 };
 

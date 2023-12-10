@@ -4,14 +4,14 @@
 
 #include <catch2/catch_test_macros.hpp>
 
-std::size_t sumOfDivisibleNumbers(const std::size_t& limit) {
-    std::vector<std::size_t> vec{};
+size_t sumOfDivisibleNumbers(const size_t& limit) {
+    std::vector<size_t> vec{};
 
-    for (std::size_t i = 3; i <= limit; ++i)
+    for (size_t i = 3; i <= limit; ++i)
         if (i % 3 == 0 || i % 5 == 0)
             vec.emplace_back(i);
 
-    return std::accumulate(vec.begin(), vec.end(), static_cast<std::size_t>(0));
+    return std::accumulate(vec.begin(), vec.end(), static_cast<size_t>(0));
 }
 
 // Chapter-1 -> problem 1  (sum of divisible numbers on 3 or 5)

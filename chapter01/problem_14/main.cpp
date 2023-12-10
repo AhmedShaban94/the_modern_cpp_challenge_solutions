@@ -5,8 +5,8 @@
 #include "catch2/catch_test_macros.hpp"
 
 bool validate_ISBN(const std::string_view str) {
-    std::size_t total{0};
-    for (std::size_t i = 10; i >= 2; --i) {
+    size_t total{0};
+    for (size_t i = 10; i >= 2; --i) {
         const auto num = str.at(10 - i) - '0';
         total += num * i;
     }

@@ -12,9 +12,9 @@ std::ostream& operator<<(std::ostream& os, const container& c) {
     return os;
 }
 
-std::vector<std::string> gray_code(std::size_t num) {
+std::vector<std::string> gray_code(size_t num) {
     std::vector<std::string> codes;
-    for (std::size_t i = 0; i < (1 << num); ++i) {
+    for (size_t i = 0; i < (1 << num); ++i) {
         auto value = (i ^ (i >> 1));
         codes.emplace_back(std::bitset<32>(value).to_string().substr(32 - num));
     }

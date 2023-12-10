@@ -5,16 +5,16 @@
 #include "catch2/catch_test_macros.hpp"
 
 using PairsVector = std::vector<std::pair<int, int>>;
-PairsVector abundantNumbers(const std::size_t& limit) {
-    std::vector<std::size_t> divisors{};
+PairsVector abundantNumbers(const size_t& limit) {
+    std::vector<size_t> divisors{};
     PairsVector nums{};
-    for (std::size_t i = 1; i < limit; ++i) {
-        for (std::size_t j = 1; j < i; ++j) {
+    for (size_t i = 1; i < limit; ++i) {
+        for (size_t j = 1; j < i; ++j) {
             if (i % j == 0)
                 divisors.push_back(j);
         }
         auto divisors_sum =
-            std::accumulate(divisors.begin(), divisors.end(), (std::size_t)0);
+            std::accumulate(divisors.begin(), divisors.end(), (size_t)0);
         if (divisors_sum > i)
             nums.emplace_back(i, divisors_sum - i);
         divisors.clear();

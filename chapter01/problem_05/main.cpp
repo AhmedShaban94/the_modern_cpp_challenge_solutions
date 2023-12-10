@@ -4,9 +4,9 @@
 
 #include "catch2/catch_test_macros.hpp"
 
-using PairsVector = std::vector<std::pair<std::size_t, std::size_t>>;
+using PairsVector = std::vector<std::pair<size_t, size_t>>;
 
-PairsVector sexyPrimePairs(const std::size_t& limit) {
+PairsVector sexyPrimePairs(const size_t& limit) {
     auto is_prime = [](const auto& num) {
         for (size_t i = 2; i < num; ++i)
             if (num % i == 0)
@@ -15,7 +15,7 @@ PairsVector sexyPrimePairs(const std::size_t& limit) {
     };
 
     PairsVector sexyPrimes{};
-    for (std::size_t i = 2; i <= limit - 6; ++i)
+    for (size_t i = 2; i <= limit - 6; ++i)
         if (is_prime(i) && is_prime(i + 6))
             sexyPrimes.emplace_back(i, i + 6);
     return sexyPrimes;
