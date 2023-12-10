@@ -21,5 +21,7 @@ readability-*,\
 -readability-braces-around-statements,\
 -readability-magic-numbers,\
 concurrency-*,\
--clang-analyzer-security.insecureAPI.rand"
+-clang-analyzer-security.insecureAPI.rand\
+-cppcoreguidelines-avoid-non-const-global-variables\
+-cppcoreguidelines-init-variables"
 HeaderFilterRegex: 'include/.*\.hpp$'

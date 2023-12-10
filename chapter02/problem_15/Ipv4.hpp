@@ -12,10 +12,12 @@
 #include <unordered_map>
 #include <vector>
 
+class IpAddressException : public std::runtime_error {
+   public:
+    explicit IpAddressException(const char* what = "Invalid IPv4 address")
+        : runtime_error{what} {}
+};
 class IPv4 {
-
-    class IpAddressException;
-
    private:
     std::string ip_;
 
@@ -104,10 +106,4 @@ class IPv4 {
             binary_string.append(std::bitset<8>(std::stoi(token)).to_string());
         return std::bitset<32>(binary_string).to_ulong();
     }
-
-    class IpAddressException : public std::runtime_error {
-       public:
-        explicit IpAddressException(const char* what = "Invalid IPv4 address")
-            : runtime_error{what} {}
-    };
 };
