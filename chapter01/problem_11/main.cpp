@@ -2,7 +2,8 @@
 #include <iostream>
 #include <iterator>
 #include <vector>
-#include "catch2/catch.hpp"
+
+#include "catch2/catch_test_macros.hpp"
 
 std::string numeric_to_roman(std::size_t num) {
     using RomanPair = std::pair<std::size_t, std::string>;

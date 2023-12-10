@@ -1,7 +1,8 @@
 #include <cmath>
 #include <iostream>
 #include <set>
-#include "catch2/catch.hpp"
+
+#include "catch2/catch_test_macros.hpp"
 
 using AmicablePair = std::pair<std::size_t, std::size_t>;
 

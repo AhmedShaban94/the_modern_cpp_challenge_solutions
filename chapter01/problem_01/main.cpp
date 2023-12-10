@@ -2,7 +2,7 @@
 #include <numeric>
 #include <vector>
 
-#include "catch2/catch.hpp"
+#include <catch2/catch_test_macros.hpp>
 
 std::size_t sumOfDivisibleNumbers(const std::size_t& limit) {
     std::vector<std::size_t> vec{};
@@ -22,4 +22,4 @@ TEST_CASE("Get sum of divisible numbers", "[sum_of_divisible_numbers]") {
     REQUIRE(sumOfDivisibleNumbers(35) == 293);
     REQUIRE(sumOfDivisibleNumbers(50) == 593);
     REQUIRE(sumOfDivisibleNumbers(100) == 2418);
-}   
+}

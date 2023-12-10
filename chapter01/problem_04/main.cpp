@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "catch2/catch.hpp"
+#include <catch2/catch_test_macros.hpp>
 
 std::size_t largestPrimeSmallerThanGivenNumber(const std::size_t& limit) {
     constexpr auto is_prime = [](const auto& num) -> bool {

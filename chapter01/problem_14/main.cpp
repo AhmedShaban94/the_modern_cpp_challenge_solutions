@@ -2,7 +2,7 @@
 #include <iostream>
 #include <iterator>
 #include <vector>
-#include "catch2/catch.hpp"
+#include "catch2/catch_test_macros.hpp"
 
 bool validate_ISBN(const std::string_view str) {
     std::size_t total{0};

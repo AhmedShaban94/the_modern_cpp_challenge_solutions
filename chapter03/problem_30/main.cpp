@@ -1,12 +1,11 @@
-#include "catch2/catch.hpp"
 #include <iostream>
 #include <optional>
 #include <regex>
 #include <string>
 #include <vector>
+#include "catch2/catch_test_macros.hpp"
 
-struct urlParts
-{
+struct urlParts {
     std::string protocol;
     std::string domain;
     std::optional<std::size_t> port;
@@ -15,8 +14,7 @@ struct urlParts
     std::optional<std::string> fragment;
 };
 
-std::ostream &operator<<(std::ostream &os, const urlParts &parts)
-{
+std::ostream& operator<<(std::ostream& os, const urlParts& parts) {
     os << "Protocol: " << parts.protocol << '\n';
     os << "Domain: " << parts.domain << '\n';
     if (parts.port.has_value())
@@ -31,15 +29,13 @@ std::ostream &operator<<(std::ostream &os, const urlParts &parts)
     return os;
 }
 
-std::optional<urlParts> parse_url(const std::string &url)
-{
-    const std::regex regexp{R"(^(\w+):\/\/([\w.-]+)(:(\d+))?([\w\/\.]+)?(\?([\w=&]*)(#?(\w+))?)?$)"};
+std::optional<urlParts> parse_url(const std::string& url) {
+    const std::regex regexp{
+        R"(^(\w+):\/\/([\w.-]+)(:(\d+))?([\w\/\.]+)?(\?([\w=&]*)(#?(\w+))?)?$)"};
     std::smatch matches;
     const auto found = std::regex_search(url, matches, regexp);
-    if (found)
-    {
-        if (matches[1].matched and matches[2].matched)
-        {
+    if (found) {
+        if (matches[1].matched and matches[2].matched) {
             urlParts parts;
             parts.protocol = matches[1].str();
             parts.domain = matches[2].str();
@@ -59,8 +55,7 @@ std::optional<urlParts> parse_url(const std::string &url)
     return std::nullopt;
 }
 
-TEST_CASE("parse URL given uri text", "[parse_url]")
-{
+TEST_CASE("parse URL given uri text", "[parse_url]") {
     using namespace std::string_literals;
     const auto url = "https://packt.com"s;
     const auto parts = parse_url(url);

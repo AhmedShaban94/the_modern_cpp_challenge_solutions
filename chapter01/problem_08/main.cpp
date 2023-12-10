@@ -4,7 +4,8 @@
 #include <numeric>
 #include <string>
 #include <vector>
-#include "catch2/catch.hpp"
+
+#include "catch2/catch_test_macros.hpp"
 
 // 1- create a list of numbers with 3 digits.
 // 2- loop over this list and push_back to a new list the numbers

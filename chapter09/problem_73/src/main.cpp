@@ -1,16 +1,14 @@
-#include "pugixml.hpp"
 #include <iostream>
 #include <optional>
 #include <vector>
+#include "pugixml.hpp"
 
-struct CastingRole
-{
+struct CastingRole {
     std::string actorName_{};
     std::string characterName_{};
 };
 
-struct Movie
-{
+struct Movie {
     std::size_t id_{};
     std::string title_{};
     std::size_t year_{};
@@ -21,8 +19,7 @@ struct Movie
     std::vector<CastingRole> cast_{};
 };
 
-std::ostream& operator<<(std::ostream& os, const Movie& m)
-{
+std::ostream& operator<<(std::ostream& os, const Movie& m) {
     os << "title: " << m.title_ << '\n'
        << "id: " << m.id_ << '\n'
        << "year: " << m.year_ << '\n'
@@ -45,13 +42,11 @@ std::ostream& operator<<(std::ostream& os, const Movie& m)
 }
 
 void serializeMovies(const std::vector<Movie>& movies,
-                     const std::string& xmlFileName)
-{
+                     const std::string& xmlFileName) {
     pugi::xml_document doc{};
     auto root_node = doc.append_child("movies");
 
-    for (const auto& movie : movies)
-    {
+    for (const auto& movie : movies) {
         auto movie_node = root_node.append_child("movie");
         movie_node.append_attribute("id").set_value(movie.id_);
         movie_node.append_attribute("title").set_value(movie.title_.c_str());
@@ -59,8 +54,7 @@ void serializeMovies(const std::vector<Movie>& movies,
         movie_node.append_attribute("length").set_value(movie.length_);
 
         auto cast_node = movie_node.append_child("cast");
-        for (const auto& role : movie.cast_)
-        {
+        for (const auto& role : movie.cast_) {
             auto role_node = cast_node.append_child("role");
             role_node.append_attribute("star").set_value(
                 role.actorName_.c_str());
@@ -84,20 +78,17 @@ void serializeMovies(const std::vector<Movie>& movies,
     doc.save_file(xmlFileName.c_str());
 }
 
-std::optional<std::vector<Movie>> deserializeMovies(std::string sourceFile)
-{
+std::optional<std::vector<Movie>> deserializeMovies(std::string sourceFile) {
     pugi::xml_document doc{};
     const auto result = doc.load_file(sourceFile.c_str());
-    if (result)
-    {
+    if (result) {
         const auto root = doc.child("movies");
         std::vector<Movie> movies{};
-        for (const auto& movieNode : root)
-        {
+        for (const auto& movieNode : root) {
             Movie m{};
-            m.id_     = movieNode.attribute("id").as_uint();
-            m.title_  = movieNode.attribute("title").as_string();
-            m.year_   = movieNode.attribute("year").as_uint();
+            m.id_ = movieNode.attribute("id").as_uint();
+            m.title_ = movieNode.attribute("title").as_string();
+            m.year_ = movieNode.attribute("year").as_uint();
             m.length_ = movieNode.attribute("length").as_uint();
 
             const auto directorsNode = movieNode.child("directors");
@@ -114,10 +105,9 @@ std::optional<std::vector<Movie>> deserializeMovies(std::string sourceFile)
 
             const auto castNode = movieNode.child("cast");
             std::vector<CastingRole> cast;
-            for (const auto& role : castNode)
-            {
+            for (const auto& role : castNode) {
                 CastingRole r{};
-                r.actorName_     = role.attribute("star").as_string();
+                r.actorName_ = role.attribute("star").as_string();
                 r.characterName_ = role.attribute("name").as_string();
                 cast.push_back(r);
             }
@@ -126,9 +116,7 @@ std::optional<std::vector<Movie>> deserializeMovies(std::string sourceFile)
             movies.push_back(m);
         }
         return movies;
-    }
-    else
-    {
+    } else {
         std::cout << "XML [" << sourceFile
                   << "] parsed with errors, attr value: ["
                   << doc.child("node").attribute("attr").value() << "]\n";
@@ -139,8 +127,7 @@ std::optional<std::vector<Movie>> deserializeMovies(std::string sourceFile)
     }
 }
 
-int main()
-{
+int main() {
     const auto movies = deserializeMovies("data/movies.xml");
     for (const auto& movie : movies.value())
         std::cout << movie << '\n';

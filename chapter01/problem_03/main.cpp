@@ -1,7 +1,7 @@
 #include <iostream>
 #include <numeric>
 
-#include "catch2/catch.hpp"
+#include "catch2/catch_test_macros.hpp"
 
 std::size_t leastCommonMultiple(const std::size_t& num1,
                                 const std::size_t& num2) {

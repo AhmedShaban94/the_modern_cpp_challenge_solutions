@@ -1,7 +1,8 @@
 #include <algorithm>
 #include <iostream>
 #include <vector>
-#include "catch2/catch.hpp"
+
+#include "catch2/catch_test_macros.hpp"
 
 using PairsVector = std::vector<std::pair<std::size_t, std::size_t>>;
 

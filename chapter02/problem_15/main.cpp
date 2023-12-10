@@ -1,12 +1,12 @@
-#include "catch2/catch.hpp"
 #include "Ipv4.hpp"
+#include "catch2/catch_test_macros.hpp"
 
-TEST_CASE("IPv4 Address class constructor validation", "[IPv4]")
-{
+TEST_CASE("IPv4 Address class constructor validation", "[IPv4]") {
     const std::unordered_map<std::string, std::uint32_t> validIpAddresses{
         {"255.255.255.255", 4294967295}, {"128.147.0.1", 2157117441},
-        {"123.70.50.1", 2068197889}, {"128.107.20.1", 2154501121},
-        {"128.107.30.1", 2154503681}, {"128.107.20.10", 2154501130}, {"128.107.10.15", 2154498575}};
+        {"123.70.50.1", 2068197889},     {"128.107.20.1", 2154501121},
+        {"128.107.30.1", 2154503681},    {"128.107.20.10", 2154501130},
+        {"128.107.10.15", 2154498575}};
 
     const std::vector<std::string> invalidIpAddresses{"",
                                                       "some string",
@@ -18,34 +18,29 @@ TEST_CASE("IPv4 Address class constructor validation", "[IPv4]")
                                                       "255.-255.255.255",
                                                       "255.255.255.255.255"};
 
-    SECTION("IPv4 Address class string constructor validation")
-    {
-        for (const auto &[str, dec] : validIpAddresses)
-        {
+    SECTION("IPv4 Address class string constructor validation") {
+        for (const auto& [str, dec] : validIpAddresses) {
             REQUIRE_NOTHROW(IPv4{str});
             REQUIRE_NOTHROW(IPv4{dec});
             REQUIRE(dec == static_cast<std::uint32_t>(IPv4{str}));
         }
 
-        for (const auto &addr : invalidIpAddresses)
+        for (const auto& addr : invalidIpAddresses)
             REQUIRE_THROWS_AS(IPv4{addr}, IPv4::IpAddressException);
     }
 
-    SECTION("testing input stream operator")
-    {
+    SECTION("testing input stream operator") {
         std::stringstream ss;
         IPv4 ip{};
 
-        for (const auto &addr : validIpAddresses)
-        {
+        for (const auto& addr : validIpAddresses) {
             ss << addr.first;
             CHECK_NOTHROW(ss >> ip);
         }
 
         ss.clear();
 
-        for (const auto &addr : invalidIpAddresses)
-        {
+        for (const auto& addr : invalidIpAddresses) {
             ss << addr;
             REQUIRE_THROWS_AS(ss >> ip, IPv4::IpAddressException);
         }

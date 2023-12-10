@@ -2,7 +2,8 @@
 #include <iostream>
 #include <iterator>
 #include <vector>
-#include "catch2/catch.hpp"
+
+#include "catch2/catch_test_macros.hpp"
 
 template <class container>
 std::ostream& operator<<(std::ostream& os, const container& c) {

@@ -1,7 +1,8 @@
 #include <iostream>
 #include <numeric>
 #include <vector>
-#include "catch2/catch.hpp"
+
+#include "catch2/catch_test_macros.hpp"
 
 using PairsVector = std::vector<std::pair<int, int>>;
 PairsVector abundantNumbers(const std::size_t& limit) {
