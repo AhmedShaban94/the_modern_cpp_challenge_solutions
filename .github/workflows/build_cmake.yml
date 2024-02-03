@@ -95,14 +95,18 @@ jobs:
       - name: Build
         shell: bash
         run: |
-          cmake --build build --config ${{ matrix.config.build_type }} -j14 --
+          cmake --build build --config ${{ matrix.config.build_type }} -j 14 --
 
-      - name: Test and coverage
+      - name: Test and coverage on Windows
         shell: bash
         working-directory: ./build 
         if: startsWith(matrix.config.os, 'windows')
         run: |
           OpenCppCoverage.exe --export_type cobertura:coverage.xml --cover_children -- ctest -j14 -C ${{matrix.build_type}} -T test --output-on-failure
-        if: !startsWith(matrix.config.os, 'windows')
+
+      - name: Test on GCC and Clang 
+        shell: bash 
+        working-directory: ./build 
+        if: startsWith(matrix.config.name, 'Ubuntu_Latest_GCC') || startsWith(matrix.config.os, 'macos')
         run: |
           ctest -j14 -C ${{matrix.build_type}} -T test --output-on-failure
