@@ -102,3 +102,12 @@ jobs:
         run: |
           cd build
           ctest -j14 -C ${{ matrix.config.build_type }} -T test --output-on-failure
+
+      - name: Upload coverage reports to Codecov
+        if: startsWith(matrix.config.name, 'Ubuntu_Latest_GCC')
+        uses: codecov/codecov-action@v3
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+        with:
+          gcov: true
+          gcov_include: /chapter\d+/[^/]+/[^/]+\.cpp
