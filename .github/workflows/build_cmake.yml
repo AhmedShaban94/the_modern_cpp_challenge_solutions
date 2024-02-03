@@ -95,7 +95,7 @@ jobs:
       - name: Build
         shell: bash
         run: |
-          cmake --build build --config ${{ matrix.config.build_type }} -j14
+          cmake --build build --config ${{ matrix.config.build_type }} -j14 --
 
       - name: Test and coverage
         shell: bash
