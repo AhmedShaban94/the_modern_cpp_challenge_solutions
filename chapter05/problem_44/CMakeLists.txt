@@ -9,6 +9,5 @@ include( FetchContent )
         GIT_REPOSITORY https://github.com/HowardHinnant/date.git
         GIT_TAG        v3.0.1
     )
-    FetchContent_MakeAvailable(date_src)
-#target_sources(problem_44 PRIVATE ${date_src_SOURCE_DIR}/src/tz.cpp)
+FetchContent_MakeAvailable(date_src)
 target_link_libraries (problem_44 PRIVATE date::date)

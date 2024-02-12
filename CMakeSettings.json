@@ -2,30 +2,18 @@
   "configurations": [
     {
       "name": "x64-Debug",
-      "generator": "Ninja",
-      "configurationType": "Debug",
-      "inheritEnvironments": [
-        "msvc_x64_x64"
-      ],
+      "generator": "Visual Studio 17 2022 Win64",
+      "configurationType": "RelWithDebInfo",
+      "inheritEnvironments": [ "msvc_x64_x64" ],
       "buildRoot": "${projectDir}\\out\\build\\${name}",
       "installRoot": "${projectDir}\\out\\install\\${name}",
-      "cmakeCommandArgs": "",
-      "buildCommandArgs": "-v",
-      "ctestCommandArgs": ""
-    },
-    {
-      "name": "x64-Clang-Debug",
-      "generator": "Ninja",
-      "configurationType": "Debug",
-      "buildRoot": "${projectDir}\\out\\build\\${name}",
-      "installRoot": "${projectDir}\\out\\install\\${name}",
-      "cmakeCommandArgs": "",
-      "buildCommandArgs": "",
       "ctestCommandArgs": "",
-      "inheritEnvironments": [
-        "clang_cl_x64_x64"
-      ],
-      "variables": []
+      "addressSanitizerEnabled": false,
+      "enableClangTidyCodeAnalysis": true,
+      "enableMicrosoftCodeAnalysis": true,
+      "intelliSenseMode": "windows-msvc-x64",
+      "disableExternalAnalysis": true,
+      "cmakeCommandArgs": ""
     }
   ]
 }
