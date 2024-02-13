@@ -31,6 +31,24 @@ if(${ENABLE_TESTING})
   include_directories(${catch2_SOURCE_DIR}/single_include)
 endif()
 
+add_executable(all_tests 
+chapter01/problem_01/tests_main.cpp
+chapter01/problem_01/main.cpp
+chapter01/problem_02/main.cpp
+chapter01/problem_03/main.cpp
+chapter01/problem_04/main.cpp
+chapter01/problem_05/main.cpp
+chapter01/problem_06/main.cpp
+chapter01/problem_07/main.cpp
+chapter01/problem_08/main.cpp
+chapter01/problem_09/main.cpp
+chapter01/problem_10/main.cpp
+chapter01/problem_11/main.cpp
+chapter01/problem_14/main.cpp
+)
+
+add_test(NAME all_tests COMMAND all_tests)
+
 add_subdirectory(chapter01)
 add_subdirectory(chapter02)
 add_subdirectory(chapter03)
