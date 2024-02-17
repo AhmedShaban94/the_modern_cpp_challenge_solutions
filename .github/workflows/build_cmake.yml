@@ -57,7 +57,7 @@ jobs:
       - name: Install dependencies on windows
         if: startsWith(matrix.config.os, 'windows')
         run: |
-          choco install ninja cmake opencppcoverage -y
+          choco install ninja cmake
           ninja --version
           cmake --version
 
@@ -97,16 +97,8 @@ jobs:
         run: |
           cmake --build build --config ${{ matrix.config.build_type }} -j 14 --
 
-      - name: Test and coverage on Windows
+      - name: Test
         shell: bash
-        working-directory: ./build 
-        if: startsWith(matrix.config.os, 'windows')
         run: |
-          OpenCppCoverage.exe --export_type cobertura:coverage.xml --cover_children -- ctest -j14 -C ${{matrix.build_type}} -T test --output-on-failure
-
-      - name: Test on GCC and Clang 
-        shell: bash 
-        working-directory: ./build 
-        if: startsWith(matrix.config.name, 'Ubuntu_Latest_GCC') || startsWith(matrix.config.os, 'macos')
-        run: |
-          ctest -j14 -C ${{matrix.build_type}} -T test --output-on-failure
+          cd build
+          ctest -j14 -C ${{ matrix.config.build_type }} -T test --output-on-failure
