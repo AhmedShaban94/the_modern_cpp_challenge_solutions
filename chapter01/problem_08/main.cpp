@@ -12,10 +12,10 @@
 // which achieves the criteria.
 
 bool is_armstrong(const size_t& number) {
-  size_t total = 0;
+  double total = 0;
   const std::string num_str = std::to_string(number);
   for (const auto& ch : num_str) total += std::pow(ch - '0', num_str.size());
-  return total == number;
+  return static_cast<size_t>(total) == number;
 }
 
 TEST_CASE("armstrong numbers are computed", "[armstrong]") {

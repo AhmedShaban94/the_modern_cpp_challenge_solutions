@@ -18,7 +18,7 @@ unsigned int dayNumberOfTheYear(const date_t& date) {
   const auto startOfTheYear = date::year_month_day{year / jan / 1};
   try {
     return (daysBetweenTwoDates(date, startOfTheYear) + 1);
-  } catch (const std::exception& e) {
+  } catch (const std::exception&) {
     throw;
   }
 }

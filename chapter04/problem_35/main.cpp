@@ -9,7 +9,7 @@ struct HumanReadable {
   std::uintmax_t size{};
   friend std::ostream& operator<<(std::ostream& os, HumanReadable hr) {
     size_t i{};
-    double mantissa = hr.size;
+    double mantissa = static_cast<double>(hr.size);
     while (mantissa >= 1024.) {
       mantissa /= 1024.;
       ++i;

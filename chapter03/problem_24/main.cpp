@@ -12,7 +12,7 @@ std::vector<std::uint16_t> StringToNumberSequence(const std::string& str) {
   std::transform(str.begin(), str.end(), std::back_inserter(temp_str), ::toupper);
   for (std::string::size_type i{0}; i < str.size(); i += 2) {
     const auto substr = temp_str.substr(i, 2);
-    const auto num = std::strtoul(substr.c_str(), nullptr, 16);
+    const auto num = static_cast<uint16_t>(std::strtoul(substr.c_str(), nullptr, 16));
     output.push_back(num);
   }
   return output;
