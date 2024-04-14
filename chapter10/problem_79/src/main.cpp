@@ -1,12 +1,16 @@
 #include <iostream>
 
-#include "zip_file.hpp"
+#include "ZipLib/ZipFile.h"
+#include "ZipLib/ZipArchive.h"
 
 int main() {
-  std::string filepath = "";
-  miniz_cpp::zip_file file{filepath};
+// open archive file. 
+auto archive = ZipFile::Open(std::string{"data/sample79.zip"});
+std::cout << archive->GetEntriesCount() << '\n'; 
 
-  std::cout << file.get_filename() << '\n';
+
+// enumrate through the archive object. 
+// list the files that only matches the regex. 
 
   return EXIT_SUCCESS;
 }
