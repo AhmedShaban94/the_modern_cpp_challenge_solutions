@@ -34,50 +34,50 @@ if(${ENABLE_TESTING})
   include_directories(${catch2_SOURCE_DIR}/single_include)
 endif()
 
-add_executable(ALL_TESTS 
-chapter01/problem_01/tests_main.cpp
+# add_executable(ALL_TESTS 
+# chapter01/problem_01/tests_main.cpp
 
-# Chapter 1
-chapter01/problem_01/main.cpp
-chapter01/problem_02/main.cpp
-chapter01/problem_03/main.cpp
-chapter01/problem_04/main.cpp
-chapter01/problem_05/main.cpp
-chapter01/problem_06/main.cpp
-chapter01/problem_07/main.cpp
-chapter01/problem_08/main.cpp
-chapter01/problem_09/main.cpp
-chapter01/problem_10/main.cpp
-chapter01/problem_11/main.cpp
-chapter01/problem_12/main.cpp
-chapter01/problem_14/main.cpp
+# # Chapter 1
+# chapter01/problem_01/main.cpp
+# chapter01/problem_02/main.cpp
+# chapter01/problem_03/main.cpp
+# chapter01/problem_04/main.cpp
+# chapter01/problem_05/main.cpp
+# chapter01/problem_06/main.cpp
+# chapter01/problem_07/main.cpp
+# chapter01/problem_08/main.cpp
+# chapter01/problem_09/main.cpp
+# chapter01/problem_10/main.cpp
+# chapter01/problem_11/main.cpp
+# chapter01/problem_12/main.cpp
+# chapter01/problem_14/main.cpp
 
-# Chapter 2
-chapter02/problem_15/main.cpp
-# chapter02/problem_16/main.cpp: problem related to include directories is not resolved.
-# chapter02/problem_17/main.cpp: problem related to include directories is not resolved.
-chapter02/problem_18/main.cpp
-chapter02/problem_19/main.cpp
-chapter02/problem_20/main.cpp
-chapter02/problem_22/main.cpp
+# # Chapter 2
+# chapter02/problem_15/main.cpp
+# # chapter02/problem_16/main.cpp: problem related to include directories is not resolved.
+# # chapter02/problem_17/main.cpp: problem related to include directories is not resolved.
+# chapter02/problem_18/main.cpp
+# chapter02/problem_19/main.cpp
+# chapter02/problem_20/main.cpp
+# chapter02/problem_22/main.cpp
 
-# Chapter 3
-chapter03/problem_23/main.cpp
-chapter03/problem_24/main.cpp
-chapter03/problem_25/main.cpp
-chapter03/problem_26/main.cpp
-chapter03/problem_27/main.cpp
-chapter03/problem_28/main.cpp
-chapter03/problem_29/main.cpp
-chapter03/problem_30/main.cpp
-chapter03/problem_31/main.cpp
+# # Chapter 3
+# chapter03/problem_23/main.cpp
+# chapter03/problem_24/main.cpp
+# chapter03/problem_25/main.cpp
+# chapter03/problem_26/main.cpp
+# chapter03/problem_27/main.cpp
+# chapter03/problem_28/main.cpp
+# chapter03/problem_29/main.cpp
+# chapter03/problem_30/main.cpp
+# chapter03/problem_31/main.cpp
 
-# Chapter 5
-# chapter05/problem_40/main.cpp problem related to include directories is not resolved.
-# chapter05/problem_41/main.cpp problem related to include directories is not resolved.
-# chapter05/problem_42/main.cpp problem related to include directories is not resolved.
-)
-add_test(NAME ALL_TESTS COMMAND ALL_TESTS)
+# # Chapter 5
+# # chapter05/problem_40/main.cpp problem related to include directories is not resolved.
+# # chapter05/problem_41/main.cpp problem related to include directories is not resolved.
+# # chapter05/problem_42/main.cpp problem related to include directories is not resolved.
+# )
+# add_test(NAME ALL_TESTS COMMAND ALL_TESTS)
 
 add_subdirectory(chapter01)
 add_subdirectory(chapter02)
