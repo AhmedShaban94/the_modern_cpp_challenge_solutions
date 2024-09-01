@@ -5,16 +5,8 @@
 #include <string_view>
 #include <vector>
 
-#include "ZipLib/ZipArchive.h"
-#include "ZipLib/ZipFile.h"
+#include "SimZip.h"
 #include "catch2/catch_test_macros.hpp"
-
-void compress(std::filesystem::path destinationFile) {
-  try {
-  } catch (std::exception ex) {
-    std::cerr << ex.what() << '\n';
-  }
-}
 
 void compress(std::filesystem::path destinationDirectory) {
   try {
