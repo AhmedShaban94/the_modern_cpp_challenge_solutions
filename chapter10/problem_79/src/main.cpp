@@ -1,22 +1,26 @@
 #include <exception>
+#include <filesystem>
 #include <iostream>
 #include <regex>
 #include <string>
 #include <string_view>
 #include <vector>
 
-#include "ZipLib/ZipArchive.h"
-#include "ZipLib/ZipFile.h"
+#include "SimZip.h"
 #include "catch2/catch_test_macros.hpp"
 
 std::vector<std::string> FindFilesInZip(std::string_view regexPattern) {
   std::vector<std::string> fileNames{};
+  std::regex pattern(regexPattern.data());
   try {
-    auto archive = ZipFile::Open(std::string{"data/sample79.zip"});
-    fileNames.reserve(archive->GetEntriesCount());
-    for (size_t i = 0; i < archive->GetEntriesCount(); ++i) {
-      auto fileName = archive->GetEntry(i)->GetName();
-      if (std::regex_match(fileName, std::regex{regexPattern.data()})) {
+    const std::string zipFilePath = "sample79.zip";
+    const std::string outputDir = "zip_output";
+    SimZip zip(zipFilePath, SimZip::OpenMode::Read);
+
+    zip.extractall(outputDir);
+    for (const auto& entry : std::filesystem::directory_iterator("zip_output")) {
+      const std::string fileName = entry.path().filename().string();
+      if (entry.is_regular_file() && std::regex_search(fileName, pattern)) {
         fileNames.push_back(fileName);
       }
     }
@@ -30,10 +34,10 @@ std::vector<std::string> FindFilesInZip(std::string_view regexPattern) {
 TEST_CASE("Finding files in zip file with specific pattern", "[find_files_in_zip]") {
   std::string expectedRegexPattern{"^.*\\.jpg$"};
   std::string faultyRegexPattern{"^.*\\.png$"};
-  std::string faultyFileName {"mark_twain.jpg"};
+  std::string faultyFileName{"mark_twain.jpg"};
   std::vector<std::string> expectedFileNames = {"albert einstein.jpg", "einstein_nobel.jpg",
                                                 "Stephen_Hawking.StarChild.jpg", "Isaac_Newton.jpg"};
-  
+
   REQUIRE(FindFilesInZip(expectedRegexPattern) == expectedFileNames);
   REQUIRE(FindFilesInZip(faultyRegexPattern).empty());
   REQUIRE(FindFilesInZip(faultyFileName).empty());
