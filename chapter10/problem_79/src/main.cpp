@@ -17,7 +17,7 @@ std::vector<std::string> FindFilesInZip(std::string_view regexPattern) {
   std::cout << "Directory: " << std::filesystem::current_path() << '\n';
 
   try {
-    const std::string zipFilePath = "sample79.zip";
+    const std::string zipFilePath = "data/sample79.zip";
     const std::string outputDir = "zip_output";
     SimZip zip(zipFilePath, SimZip::OpenMode::Read);
 
@@ -29,7 +29,7 @@ std::vector<std::string> FindFilesInZip(std::string_view regexPattern) {
       }
     }
   } catch (std::exception& ex) {
-    std::cout << ex.what() << '\n';
+    std::cout << "Error: " << ex.what() << '\n';
   }
   return fileNames;
 }
