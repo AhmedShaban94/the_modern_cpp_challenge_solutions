@@ -15,5 +15,5 @@ if (NOT WIN32)
     add_test(NAME problem_79_tests COMMAND problem_79)
     add_custom_command(TARGET problem_79 PRE_BUILD
                         COMMAND ${CMAKE_COMMAND} -E copy_directory
-                        ${CMAKE_CURRENT_SOURCE_DIR}/data $<TARGET_FILE_DIR:problem_79>/data)
+                        ${CMAKE_CURRENT_SOURCE_DIR}/data $<TARGET_FILE_DIR:problem_79>)
 endif()
