@@ -10,39 +10,39 @@
 #include "catch2/catch_test_macros.hpp"
 #include "catch2/matchers/catch_matchers_vector.hpp"
 
-std::vector<std::string> FindFilesInZip(std::string_view regexPattern) {
-  std::vector<std::string> fileNames{};
-  std::regex pattern(regexPattern.data());
+std::vector<std::string> FindFilesInZip(std::string_view regex_pattern) {
+  std::vector<std::string> file_names{};
+  std::regex pattern{regex_pattern.data()};
 
   std::cout << "Directory: " << std::filesystem::current_path() << '\n';
 
   try {
-    const std::string zipFilePath = "data/sample79.zip";
-    const std::string outputDir = "zip_output";
-    SimZip zip(zipFilePath, SimZip::OpenMode::Read);
+    const std::string zip_file_path = "data/sample79.zip";
+    const std::string output_dir = "zip_output";
+    SimZip zip(zip_file_path, SimZip::OpenMode::Read);
 
-    zip.extractall(outputDir);
+    zip.extractall(output_dir);
     for (const auto& entry : std::filesystem::recursive_directory_iterator("zip_output")) {
-      const std::string fileName = entry.path().filename().string();
-      if (entry.is_regular_file() && std::regex_search(fileName, pattern)) {
-        fileNames.push_back(fileName);
+      const std::string file_name = entry.path().filename().string();
+      if (entry.is_regular_file() && std::regex_search(file_name, pattern)) {
+        file_names.push_back(file_name);
       }
     }
   } catch (std::exception& ex) {
     std::cout << "Error: " << ex.what() << '\n';
   }
-  return fileNames;
+  return file_names;
 }
 
 // chapter-10 -> problem79 (Finding files in a ZIP archive)
 TEST_CASE("Finding files in zip file with specific pattern", "[find_files_in_zip]") {
-  std::string expectedRegexPattern{"^.*\\.jpg$"};
-  std::string faultyRegexPattern{"^.*\\.png$"};
-  std::string faultyFileName{"mark_twain.jpg"};
-  std::vector<std::string> expectedFileNames = {"albert einstein.jpg", "einstein_nobel.jpg",
+  std::string expected_regex_pattern{"^.*\\.jpg$"};
+  std::string faulty_regex_pattern{"^.*\\.png$"};
+  std::string faulty_file_name{"mark_twain.jpg"};
+  std::vector<std::string> expected_file_names = {"albert einstein.jpg", "einstein_nobel.jpg",
                                                 "Stephen_Hawking.StarChild.jpg", "Isaac_Newton.jpg"};
 
-  CHECK_THAT(FindFilesInZip(expectedRegexPattern), Catch::Matchers::UnorderedEquals(expectedFileNames));
-  CHECK(FindFilesInZip(faultyRegexPattern).empty());
-  CHECK(FindFilesInZip(faultyFileName).empty());
+  CHECK_THAT(FindFilesInZip(expected_regex_pattern), Catch::Matchers::UnorderedEquals(expected_file_names));
+  CHECK(FindFilesInZip(faulty_regex_pattern).empty());
+  CHECK(FindFilesInZip(faulty_file_name).empty());
 }
