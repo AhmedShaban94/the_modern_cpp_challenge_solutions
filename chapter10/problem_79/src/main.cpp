@@ -14,8 +14,6 @@ std::vector<std::string> FindFilesInZip(std::string_view regex_pattern) {
   std::vector<std::string> file_names{};
   std::regex pattern{regex_pattern.data()};
 
-  std::cout << "Directory: " << std::filesystem::current_path() << '\n';
-
   try {
     const std::string zip_file_path = "data/sample79.zip";
     const std::string output_dir = "zip_output";
