@@ -1,15 +1,24 @@
-# This is a basic workflow to help you get started with Actions
+# Modern C++ Challenge Solutions CI Workflow
 name: CMake Build Matrix
-on: 
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events for any branch
   push:
+    branches: [ "**" ]
   pull_request:
+    branches: [ "**" ]
   release:
+    types: [published]
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   build:
     name: ${{ matrix.config.name }}
     runs-on: ${{ matrix.config.os }}
+    timeout-minutes: 30
     strategy:
       fail-fast: false
       matrix:
@@ -21,12 +30,12 @@ jobs:
             build_type: "Release",
             cc: "cl",
             cxx: "cl",
-            environment_script: "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Auxiliary/Build/vcvars64.bat",
+            environment_script: "C:/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Auxiliary/Build/vcvars64.bat",
             archiver: "7z a",
             generators: "Visual Studio 17 2022"
           }
         - {
-            name: "Ubuntu_Latest_GCC",
+            name: "Ubuntu Latest GCC",
             os: ubuntu-latest,
             artifact: "ubuntu_gcc.7z",
             build_type: "Release",
@@ -47,58 +56,120 @@ jobs:
           }
 
     steps:
-      - uses: actions/checkout@v2
+      # Checkout the repository
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
-      - name: Print env
+      # Print environment information for debugging
+      - name: Print environment info
         run: |
-          echo github.event.action: ${{ github.event.action }}
-          echo github.event_name: ${{ github.event_name }}
+          echo "GitHub event action: ${{ github.event.action }}"
+          echo "GitHub event name: ${{ github.event_name }}"
+          echo "GitHub ref: ${{ github.ref }}"
+          echo "GitHub SHA: ${{ github.sha }}"
       
-      - name: Install dependencies on windows
+      # Setup cache for Windows dependencies
+      - name: Windows - Setup dependency cache
+        if: startsWith(matrix.config.os, 'windows')
+        uses: actions/cache@v3
+        with:
+          path: |
+            C:\tools\ninja
+            C:\Program Files\CMake
+          key: ${{ runner.os }}-deps-${{ hashFiles('**/*.cmake') }}
+          restore-keys: ${{ runner.os }}-deps-
+            
+      # Install dependencies on Windows
+      - name: Windows - Install dependencies
         if: startsWith(matrix.config.os, 'windows')
         run: |
-          choco install ninja cmake
+          choco install ninja cmake --no-progress
           ninja --version
           cmake --version
 
-      - name: Install dependencies on ubuntu
-        if: startsWith(matrix.config.name, 'Ubuntu_Latest_GCC')
+      # Setup cache for Ubuntu dependencies
+      - name: Ubuntu - Setup dependency cache
+        if: startsWith(matrix.config.name, 'Ubuntu')
+        uses: actions/cache@v3
+        with:
+          path: /var/cache/apt
+          key: ${{ runner.os }}-apt-${{ hashFiles('**/apt-packages.txt') }}
+          restore-keys: ${{ runner.os }}-apt-
+            
+      # Install dependencies on Ubuntu
+      - name: Ubuntu - Install dependencies
+        if: startsWith(matrix.config.name, 'Ubuntu')
         run: |
           sudo apt-get update
-          sudo apt-get install ninja-build cmake clang-tidy curl libcurl4-openssl-dev
+          sudo apt-get install -y ninja-build cmake clang-tidy curl libcurl4-openssl-dev
           ninja --version
           cmake --version
           gcc --version
       
-      - name: Install dependencies on macos
+      # Setup cache for macOS dependencies
+      - name: macOS - Setup dependency cache
+        if: startsWith(matrix.config.os, 'macos')
+        uses: actions/cache@v3
+        with:
+          path: ~/Library/Caches/Homebrew
+          key: ${{ runner.os }}-brew-${{ hashFiles('**/Brewfile') }}
+          restore-keys: ${{ runner.os }}-brew-
+            
+      # Install dependencies on macOS
+      - name: macOS - Install dependencies
         if: startsWith(matrix.config.os, 'macos')
         run: |
-          brew install p7zip cmake ninja
-          brew install llvm
-          ln -s "$(brew --prefix llvm)/bin/clang-format" "/usr/local/bin/clang-format"
-          ln -s "$(brew --prefix llvm)/bin/clang-tidy" "/usr/local/bin/clang-tidy"
-          ln -s "$(brew --prefix llvm)/bin/clang-apply-replacements" "/usr/local/bin/clang-apply-replacements"
+          brew install p7zip cmake ninja llvm
+          ln -sf "$(brew --prefix llvm)/bin/clang-format" "/usr/local/bin/clang-format"
+          ln -sf "$(brew --prefix llvm)/bin/clang-tidy" "/usr/local/bin/clang-tidy"
+          ln -sf "$(brew --prefix llvm)/bin/clang-apply-replacements" "/usr/local/bin/clang-apply-replacements"
           ninja --version
           cmake --version
           
-      - name: Configure
+      # Setup CMake cache
+      - name: Setup CMake cache
+        uses: actions/cache@v3
+        with:
+          path: build/CMakeCache.txt
+          key: ${{ runner.os }}-cmake-${{ hashFiles('**/CMakeLists.txt') }}
+          restore-keys: ${{ runner.os }}-cmake-
+            
+      # Configure CMake
+      - name: Configure CMake
         shell: bash
+        env:
+          CC: ${{ matrix.config.cc }}
+          CXX: ${{ matrix.config.cxx }}
         run: |
-          mkdir build
+          mkdir -p build
           cd build
           cmake \
             -S .. \
             -B . \
             -DCMAKE_BUILD_TYPE=${{ matrix.config.build_type }} \
-            -G "${{ matrix.config.generators }}"
+            -G "${{ matrix.config.generators }}" \
+            -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
       
+      # Build the project
       - name: Build
         shell: bash
         run: |
-          cmake --build build --config ${{ matrix.config.build_type }} -j 14 --
+          cmake --build build --config ${{ matrix.config.build_type }} -j $(nproc 2>/dev/null || sysctl -n hw.ncpu 2>/dev/null || echo 4) --
 
+      # Run tests
       - name: Test
         shell: bash
         run: |
           cd build
-          ctest -j14 -C ${{ matrix.config.build_type }} -T test --output-on-failure
+          ctest -j$(nproc 2>/dev/null || sysctl -n hw.ncpu 2>/dev/null || echo 4) -C ${{ matrix.config.build_type }} -T test --output-on-failure
+          
+      # Upload test results
+      - name: Upload test results
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: test-results-${{ matrix.config.name }}
+          path: build/Testing/
+          retention-days: 7
