@@ -3,3 +3,4 @@ project(modern_cpp_challenge_book)
 
 add_subdirectory(problem_79)
 add_subdirectory(problem_80)
+add_subdirectory(problem_82)
