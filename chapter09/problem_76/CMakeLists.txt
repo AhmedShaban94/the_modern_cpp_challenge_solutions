@@ -7,7 +7,7 @@ set_target_properties (problem_76 PROPERTIES FOLDER "09.Serialization")
 include(FetchContent)
 FetchContent_Declare(
     json
-    URL https://github.com/nlohmann/json/releases/download/v3.11.2/json.tar.xz)
+    URL https://github.com/nlohmann/json/releases/download/v3.12.0/json.tar.xz)
 
 FetchContent_MakeAvailable(json)
 target_link_libraries(problem_76 PRIVATE nlohmann_json::nlohmann_json)
