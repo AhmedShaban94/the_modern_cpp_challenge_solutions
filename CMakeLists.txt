@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.11)
 project(modern_cpp_challenge_book)
 
+# Set the minimum required version for all subdirectories
+set(CMAKE_MINIMUM_REQUIRED_VERSION 3.11)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
