@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.11.0)
 project(modern_cpp_challenge_book)
 
-if (LINUX)
+if (UNIX AND NOT APPLE)
     include(FetchContent)
     FetchContent_Declare(
         SimZip
