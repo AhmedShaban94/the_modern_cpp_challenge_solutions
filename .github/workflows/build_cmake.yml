@@ -46,7 +46,7 @@ jobs:
           }
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
       - name: Print env
         run: |
@@ -87,11 +87,9 @@ jobs:
       - name: Configure
         shell: bash
         run: |
-          mkdir build
-          cd build
           cmake \
-            -S .. \
-            -B . \
+            -S . \
+            -B build \
             -DCMAKE_BUILD_TYPE=${{ matrix.config.build_type }} \
             -DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
             -G "${{ matrix.config.generators }}"
@@ -104,5 +102,4 @@ jobs:
       - name: Test
         shell: bash
         run: |
-          cd build
-          ctest -j14 -C ${{ matrix.config.build_type }} -T test --output-on-failure
+          ctest --test-dir build -j14 -C ${{ matrix.config.build_type }} -T test --output-on-failure
