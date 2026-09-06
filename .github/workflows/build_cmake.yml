@@ -21,9 +21,8 @@ jobs:
             build_type: "Release",
             cc: "cl",
             cxx: "cl",
-            environment_script: "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Auxiliary/Build/vcvars64.bat",
             archiver: "7z a",
-            generators: "Visual Studio 17 2022"
+            generators: "Ninja"
           }
         - {
             name: "Ubuntu_Latest_GCC",
@@ -54,6 +53,9 @@ jobs:
           echo github.event.action: ${{ github.event.action }}
           echo github.event_name: ${{ github.event_name }}
       
+      - uses: ilammy/msvc-dev-cmd@v1
+        if: startsWith(matrix.config.os, 'windows')
+
       - name: Install dependencies on windows
         if: startsWith(matrix.config.os, 'windows')
         run: |
@@ -91,6 +93,7 @@ jobs:
             -S .. \
             -B . \
             -DCMAKE_BUILD_TYPE=${{ matrix.config.build_type }} \
+            -DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
             -G "${{ matrix.config.generators }}"
       
       - name: Build
