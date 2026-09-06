@@ -1,0 +1,46 @@
+{
+  "version": 6,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 25,
+    "patch": 0
+  },
+  "configurePresets": [
+    {
+      "name": "ninja-clang",
+      "displayName": "Ninja + clang-cl (x64 Debug)",
+      "description": "Ninja generator with clang-cl; generates compile_commands.json for clangd",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "CMAKE_C_COMPILER": "clang-cl",
+        "CMAKE_CXX_COMPILER": "clang-cl",
+        "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
+      },
+      "environment": {
+        "CXXFLAGS": "",
+        "CFLAGS": ""
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "ninja-clang",
+      "configurePreset": "ninja-clang"
+    }
+  ],
+  "testPresets": [
+    {
+      "name": "ninja-clang",
+      "configurePreset": "ninja-clang",
+      "output": {
+        "outputOnFailure": true
+      },
+      "execution": {
+        "noTestsAction": "error",
+        "stopOnFailure": false
+      }
+    }
+  ]
+}

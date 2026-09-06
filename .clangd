@@ -1,0 +1,48 @@
+# clangd configuration for the_modern_cpp_challenge_solutions
+#
+# A compilation database is generated in build/ via:
+#   cmake -S . -B build -G Ninja ^
+#     -DCMAKE_C_COMPILER=clang-cl -DCMAKE_CXX_COMPILER=clang-cl ^
+#     -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DFETCHCONTENT_FULLY_DISCONNECTED=ON
+# (run from a "x64 Native Tools" / vcvars64 environment so clang-cl finds the
+#  MSVC headers and libraries)
+#
+# Use a clangd >= 19 — the system LLVM 13 clangd cannot parse VS2022's STL.
+# A suitable binary ships with Visual Studio; point your editor's clangd
+# extension at it, e.g. settings.json:
+#   "clangd.path": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\Llvm\\x64\\bin\\clangd.exe"
+# No --query-driver is needed: clang-cl auto-detects the VS/MSVC and Windows
+# SDK include paths on its own.
+
+CompileFlags:
+  CompilationDatabase: build/
+
+Diagnostics:
+  UnusedIncludes: Strict
+  MissingIncludes: Strict
+  ClangTidy:
+    FastCheckFilter: None
+
+Index:
+  StandardLibrary: Yes
+
+InlayHints:
+  Enabled: Yes
+  ParameterNames: Yes
+  DeducedTypes: Yes
+
+---
+# Fallback flags for files not covered by the compile_commands.json
+# (e.g. chapter10/problem_80, whose target is only built on Linux).
+If:
+  PathMatch: .*
+CompileFlags:
+  Compiler: clang-cl
+  Add:
+    - -std:c++17
+    - -ID:\Study\C++\Projects\the_modern_cpp_challenge_solutions\external\catch2-src\src
+    - -ID:\Study\C++\Projects\the_modern_cpp_challenge_solutions\external\catch2-src\single_include
+    - -ID:\Study\C++\Projects\the_modern_cpp_challenge_solutions\external\catch2-build\generated-includes
+    - -ID:\Study\C++\Projects\the_modern_cpp_challenge_solutions\external\json-src\single_include
+    - -ID:\Study\C++\Projects\the_modern_cpp_challenge_solutions\external\date_src-src\include
+    - -ID:\Study\C++\Projects\the_modern_cpp_challenge_solutions\external\simzip-src
