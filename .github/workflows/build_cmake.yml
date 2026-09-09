@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 name: CMake Build Matrix
-on: 
+on:
   push:
   pull_request:
   release:
@@ -13,36 +13,24 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        config: 
+        config:
         - {
             name: "Windows Latest MSVC",
             os: windows-latest,
-            artifact: "windows_msvc.7z",
             build_type: "Release",
-            cc: "cl",
-            cxx: "cl",
-            archiver: "7z a",
-            generators: "Ninja"
+            generator: "Ninja"
           }
         - {
             name: "Ubuntu_Latest_GCC",
             os: ubuntu-latest,
-            artifact: "ubuntu_gcc.7z",
             build_type: "Release",
-            cc: "gcc",
-            cxx: "g++",
-            archiver: "7z a",
-            generators: "Ninja"
+            generator: "Ninja"
           }
         - {
             name: "macOS Latest Clang",
             os: macos-latest,
-            artifact: "macos_clang.7z",
             build_type: "Release",
-            cc: "clang",
-            cxx: "clang++",
-            archiver: "7za a",
-            generators: "Ninja"
+            generator: "Ninja"
           }
 
     steps:
@@ -52,9 +40,11 @@ jobs:
         run: |
           echo github.event.action: ${{ github.event.action }}
           echo github.event_name: ${{ github.event_name }}
-      
+
       - uses: ilammy/msvc-dev-cmd@v1
         if: startsWith(matrix.config.os, 'windows')
+        env:
+          FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
       - name: Install dependencies on windows
         if: startsWith(matrix.config.os, 'windows')
@@ -67,23 +57,18 @@ jobs:
         if: startsWith(matrix.config.name, 'Ubuntu_Latest_GCC')
         run: |
           sudo apt-get update
-          sudo apt-get install ninja-build cmake clang-tidy curl libcurl4-openssl-dev
+          sudo apt-get install ninja-build cmake curl libcurl4-openssl-dev
           ninja --version
           cmake --version
           gcc --version
-      
+
       - name: Install dependencies on macos
         if: startsWith(matrix.config.os, 'macos')
         run: |
-          brew uninstall --ignore-dependencies cmake || true
-          brew install p7zip cmake ninja
-          brew install llvm
-          ln -s "$(brew --prefix llvm)/bin/clang-format" "/usr/local/bin/clang-format"
-          ln -s "$(brew --prefix llvm)/bin/clang-tidy" "/usr/local/bin/clang-tidy"
-          ln -s "$(brew --prefix llvm)/bin/clang-apply-replacements" "/usr/local/bin/clang-apply-replacements"
+          brew install cmake ninja
           ninja --version
           cmake --version
-          
+
       - name: Configure
         shell: bash
         run: |
@@ -92,8 +77,9 @@ jobs:
             -B build \
             -DCMAKE_BUILD_TYPE=${{ matrix.config.build_type }} \
             -DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
-            -G "${{ matrix.config.generators }}"
-      
+            -DENABLE_CLANG_TIDY=OFF \
+            -G "${{ matrix.config.generator }}"
+
       - name: Build
         shell: bash
         run: |
@@ -103,3 +89,35 @@ jobs:
         shell: bash
         run: |
           ctest --test-dir build -j14 -C ${{ matrix.config.build_type }} -T test --output-on-failure
+
+  lint:
+    name: clang-tidy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install clang-tidy
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y cmake ninja-build clang-tidy-19 clang-tools-19
+
+      - name: Configure
+        shell: bash
+        run: |
+          cmake \
+            -S . \
+            -B build \
+            -G Ninja \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
+            -DENABLE_CLANG_TIDY=OFF
+
+      - name: Run clang-tidy
+        shell: bash
+        run: |
+          SRC_DIR="$PWD"
+          find "$SRC_DIR" \
+            -path "$SRC_DIR/build" -prune -o \
+            -path "$SRC_DIR/external" -prune -o \
+            \( -name 'main.cpp' -o -name 'tests_main.cpp' \) -print \
+            | xargs -r -P "$(nproc)" -n 8 clang-tidy-19 -p build --

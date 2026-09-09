@@ -7,23 +7,27 @@ set(CMAKE_MINIMUM_REQUIRED_VERSION 3.11)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
+option(ENABLE_CLANG_TIDY "Run clang-tidy during build" ON)
+
 # clang-tidy >= 19 is required to parse this project's .clang-tidy
 # (ExcludeHeaderFilterRegex). It is only enabled for GNU-style compiler
 # drivers: clang-tidy cannot parse MSVC-style (cl / clang-cl) compile
 # commands, e.g. it drops /EHsc and reports "exceptions disabled" errors.
-find_program(CLANG_TIDY_EXE
-             NAMES clang-tidy-21 clang-tidy-20 clang-tidy-19 clang-tidy
-             PATHS "$ENV{VSINSTALLDIR}VC/Tools/Llvm/x64/bin")
-if(CLANG_TIDY_EXE AND NOT CMAKE_CXX_COMPILER_FRONTEND_VARIANT STREQUAL "MSVC")
-  execute_process(
-      COMMAND ${CLANG_TIDY_EXE} --version
-      OUTPUT_VARIABLE CLANG_TIDY_VERSION_OUTPUT
-      OUTPUT_STRIP_TRAILING_WHITESPACE)
-  string(REGEX MATCH "LLVM version ([0-9]+)" _ "${CLANG_TIDY_VERSION_OUTPUT}")
-  if(CMAKE_MATCH_1 AND CMAKE_MATCH_1 GREATER_EQUAL 19)
-    set(CMAKE_CXX_CLANG_TIDY "${CLANG_TIDY_EXE}")
-  else()
-    message(STATUS "clang-tidy >= 19 not found (${CLANG_TIDY_EXE}); disabling build-time clang-tidy")
+if(ENABLE_CLANG_TIDY)
+  find_program(CLANG_TIDY_EXE
+               NAMES clang-tidy-21 clang-tidy-20 clang-tidy-19 clang-tidy
+               PATHS "$ENV{VSINSTALLDIR}VC/Tools/Llvm/x64/bin")
+  if(CLANG_TIDY_EXE AND NOT CMAKE_CXX_COMPILER_FRONTEND_VARIANT STREQUAL "MSVC")
+    execute_process(
+        COMMAND ${CLANG_TIDY_EXE} --version
+        OUTPUT_VARIABLE CLANG_TIDY_VERSION_OUTPUT
+        OUTPUT_STRIP_TRAILING_WHITESPACE)
+    string(REGEX MATCH "LLVM version ([0-9]+)" _ "${CLANG_TIDY_VERSION_OUTPUT}")
+    if(CMAKE_MATCH_1 AND CMAKE_MATCH_1 GREATER_EQUAL 19)
+      set(CMAKE_CXX_CLANG_TIDY "${CLANG_TIDY_EXE}")
+    else()
+      message(STATUS "clang-tidy >= 19 not found (${CLANG_TIDY_EXE}); disabling build-time clang-tidy")
+    endif()
   endif()
 endif()
 
